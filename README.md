@@ -22,11 +22,3 @@ and an addition folder:
 ### **Move Mechanic**
 
 ### **Win/Lose/Draw**
-
-## **Building**
-The jaxafx jars are in `/lib`
-
-### **VS Code**
-Set the path to the javafx jar files in launch.json and add `lib/**/*.jar` to the referenced libraries in settings.json
-
-## **Testing**
