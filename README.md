@@ -21,4 +21,4 @@ and an addition folder:
 
 ### **Move Mechanic**
 
-### **Win/Lose/Draw**
+### **Win/Lose/Draw/Resign**
