@@ -1,5 +1,7 @@
 package chess;
 
+import java.util.Scanner;
+
 import chess.enums.Color;
 import chess.pieces.*;
 
@@ -66,9 +68,18 @@ public class GameBoard
     public boolean movePiece(int fromRow, int fromCol, int toRow, int toCol)
     {
         Piece selectedPiece = getPieceAt(fromRow, fromCol);
+        if (selectedPiece == null) {
+            return false;
+        }
         if (selectedPiece.canMoveTo(fromRow, fromCol, toRow, toCol, this)) {
             setPieceAt(null, fromRow, fromCol);
             setPieceAt(selectedPiece, toRow, toCol);
+
+            // Check for promotion of a pawn
+            if (selectedPiece instanceof Pawn && (toRow == 0 || toRow == 7)) {
+                Piece promotedPiece = promotionDialog(selectedPiece.getColor(), toRow, toCol);
+                setPieceAt(promotedPiece, toRow, toCol);
+            }
             return true;
         }
         return false;
@@ -114,6 +125,40 @@ public class GameBoard
     public boolean isCheckmate(Color currentPlayer)
     {
         return false;
+    }
+
+    public Piece promotionDialog(Color color, int row, int col)
+    {
+        Piece promotedPiece = null;
+        
+        System.out.print("Choose your promotion (Q, R, B, N): ");
+        Scanner scanner = new Scanner(System.in);
+        boolean isValidInput = false;
+        while (!isValidInput) {
+            String input = scanner.nextLine();
+            switch (input) {
+                case "Q" : 
+                    promotedPiece = new Queen(color, row, col);
+                    isValidInput = true;
+                    break;
+                case "R" : 
+                    promotedPiece = new Rook(color, row, col);
+                    isValidInput = true;
+                    break;
+                case "B" :
+                    promotedPiece = new Bishop(color, row, col);
+                    isValidInput = true;
+                    break;
+                case "N" :
+                    promotedPiece = new Knight(color, row, col);
+                    isValidInput = true;
+                    break;
+                default : 
+                    System.out.println("Invalid input.");
+                    continue;
+            }
+        }
+        return promotedPiece;
     }
 
     /**
