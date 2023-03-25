@@ -4,8 +4,7 @@ import chess.Pieces.*;
 
 public class GameBoard
 { 
-    String[] rows = { "8", "7", "6", "5", "4" , "3", "2", "1" };
-    String[] columns = {"a" ,"b" ,"c" ,"d" ,"e" ,"f" ,"g", "h" };
+    char[] columns = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h' };
 
     private Piece[][] board;
 

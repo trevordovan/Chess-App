@@ -19,11 +19,10 @@ public class Utils
 
     /**
      * Converts a chess board location string (e.g. "a3") to corresponding row and column integers.
-     * 
      * @param input the chess board location string
      * @return an integer array containing the row and column integers respectively
      */
-    public static int[] convertIndexesToRowCol(String input)
+    public static int[] convertFileRankToRowCol(String input)
     {
         String columnStr = input.substring(0, 1);
         int row = Integer.parseInt(input.substring(1)) - 1;
@@ -33,13 +32,17 @@ public class Utils
 
     /**
      * Converts row and column integers to the corresponding chess board location string (e.g. "a3").
-     * 
      * @param row the row integer
      * @param col the column integer
      * @return the chess board location string
      */
-    public static String convertRowColToIndexes(int row, int col)
+    public static String convertRowColToFileRank(int row, int col)
     {
+        if (col < 'a' || col > 'h' || row < '1' || row > '8') {
+            System.out.println("Invalid input format");
+            return null;
+        }
+
         String columnStr = "";
         switch (col) {
             case 0:
@@ -75,7 +78,6 @@ public class Utils
 
     /**
      * Capitalizes the first letter of a given string and makes the rest lowercase.
-     * 
      * @param str the string to be capitalized
      * @return the capitalized string
      */
