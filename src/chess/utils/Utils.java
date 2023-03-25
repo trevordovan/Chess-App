@@ -3,8 +3,18 @@ package chess.utils;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * This class provides utility methods for converting chess board
+ * location string to row and column integers,and row and column
+ * integers to corresponding chess board location string, checking
+ * valid inputs, and formating strings with a captical letter at the start.
+/
+ */
 public class Utils
 {   
+    /**
+     * A map that contains the column letter as the key and the corresponding column index as the value.
+     */
     private static final Map<String, Integer> COLUMN_MAP = new HashMap<>();
     static {
         COLUMN_MAP.put("a", 0);

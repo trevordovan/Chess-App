@@ -40,7 +40,6 @@ public abstract class Piece
      * @param type the type of the piece (one of the values of the PieceType enumeration)
      * @param row the row of the piece on the board (0-7)
      * @param col the column of the piece on the board (0-7)
-     * @param location the location of the piece on the board in algebraic notation (e.g. "a1", "e4", etc.)
      * @param name the name of the piece (e.g. "wK" for a white king, "bP" for a black pawn, etc.)
      */
     public Piece(Color color, PieceType type, int row, int col, String name)
