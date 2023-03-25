@@ -7,7 +7,7 @@
 ## **Folder** Structure
 The workspace contains three folders by default, where:
 - `src`: the folder to maintain sources
-- `doc`: the folder to store generated docs
+- `docs`: the folder to store generated docs
 
 and an addition folder:
 - `bin`:  the folder to maintain compiled output files

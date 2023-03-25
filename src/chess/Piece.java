@@ -8,11 +8,29 @@ import chess.enums.PieceType;
  */
 public abstract class Piece
 {
+    /**
+     * The color of the piece.
+     */
     private Color color;
+
+    /**
+     * The type of the piece.
+     */
     private PieceType type;
+
+    /**
+     * The row on the game board where the piece is located.
+     */
     private int row;
+
+    /**
+     * The column on the game board where the piece is located.
+     */
     private int col;
-    private String location;
+    
+    /**
+     * The name of the piece, typically a two-character string like "wK" or "bQ".
+     */
     private String name;
 
     /**
@@ -25,13 +43,12 @@ public abstract class Piece
      * @param location the location of the piece on the board in algebraic notation (e.g. "a1", "e4", etc.)
      * @param name the name of the piece (e.g. "wK" for a white king, "bP" for a black pawn, etc.)
      */
-    public Piece(Color color, PieceType type, int row, int col, String location, String name)
+    public Piece(Color color, PieceType type, int row, int col, String name)
     {
         this.color = color;
         this.type = type;
         this.row = row;
         this.col = col;
-        this.location = location;
         this.name = name;
     }
 
@@ -96,24 +113,6 @@ public abstract class Piece
      */
     public void setCol(int col) {
         this.col = col;
-    }
-
-    /**
-     * Gets the location of the piece on the game board, as a string
-     * in the format "a1", "b2", etc.
-     * @return the location of the piece
-     */
-    public String getLocation() {
-        return location;
-    }
-
-    /**
-     * Sets the location of the piece on the game board, as a string
-     * in the format "a1", "b2", etc.
-     * @param location the new location of the piece
-     */
-    public void setLocation(String location) {
-        this.location = location;
     }
 
     /**

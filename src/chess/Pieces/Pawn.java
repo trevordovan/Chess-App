@@ -7,9 +7,9 @@ import chess.enums.PieceType;
 
 public class Pawn extends Piece
 {
-    public Pawn(Color color, int row, int col, String location)
+    public Pawn(Color color, int row, int col)
     {
-        super(color, PieceType.PAWN, row, col, location, (color == Color.WHITE) ? "wp" : "bp");
+        super(color, PieceType.PAWN, row, col, (color == Color.WHITE) ? "wp" : "bp");
     }
 
     @Override

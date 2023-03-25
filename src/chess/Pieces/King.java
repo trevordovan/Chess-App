@@ -7,9 +7,9 @@ import chess.enums.PieceType;
 
 public class King extends Piece
 {
-    public King(Color color, int row, int col, String location)
+    public King(Color color, int row, int col)
     {
-        super(color, PieceType.KING, row, col, location, (color == Color.WHITE) ? "wK" : "bK");
+        super(color, PieceType.KING, row, col, (color == Color.WHITE) ? "wK" : "bK");
     }
 
     @Override

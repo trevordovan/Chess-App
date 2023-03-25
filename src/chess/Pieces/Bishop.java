@@ -7,9 +7,9 @@ import chess.enums.PieceType;
 
 public class Bishop extends Piece
 {
-    public Bishop(Color color, int row, int col, String location)
+    public Bishop(Color color, int row, int col)
     {
-        super(color, PieceType.BISHOP, row, col, location, (color == Color.WHITE) ? "wB" : "bB");
+        super(color, PieceType.BISHOP, row, col, (color == Color.WHITE) ? "wB" : "bB");
     }
 
     @Override
