@@ -9,8 +9,9 @@ import chess.pieces.*;
  */
 public class GameBoard
 { 
-    char[] columns = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h' };
-
+    /**
+     * The array of pieces on the game board.
+     */
     private Piece[][] board;
 
     /**
@@ -22,29 +23,29 @@ public class GameBoard
         board = new Piece[8][8];
        
         // Black Pieces
-        board[0][0] = new Rook(Color.BLACK, 0, 0, "a8");
-        board[0][1] = new Knight(Color.BLACK, 0, 1, "b8");
-        board[0][2] = new Bishop(Color.BLACK, 0, 2, "c8");
-        board[0][3] = new Queen(Color.BLACK, 0, 3, "d8");
-        board[0][4] = new King(Color.BLACK, 0, 4, "e8");
-        board[0][5] = new Bishop(Color.BLACK, 0, 5, "f8");
-        board[0][6] = new Knight(Color.BLACK, 0, 6, "g8");
-        board[0][7] = new Rook(Color.BLACK, 0, 7, "h8");
+        board[0][0] = new Rook(Color.BLACK, 0, 0);
+        board[0][1] = new Knight(Color.BLACK, 0, 1);
+        board[0][2] = new Bishop(Color.BLACK, 0, 2);
+        board[0][3] = new Queen(Color.BLACK, 0, 3);
+        board[0][4] = new King(Color.BLACK, 0, 4);
+        board[0][5] = new Bishop(Color.BLACK, 0, 5);
+        board[0][6] = new Knight(Color.BLACK, 0, 6);
+        board[0][7] = new Rook(Color.BLACK, 0, 7);
         for (int i = 0; i < 8; i++) {
-            board[1][i] = new Pawn(Color.BLACK, 1, i, columns[i] + "7");
+            board[1][i] = new Pawn(Color.BLACK, 1, i);
         }
 
         // White Pieces
-        board[7][0] = new Rook(Color.WHITE, 7, 0, "a1");
-        board[7][1] = new Knight(Color.WHITE, 7, 1, "b1");
-        board[7][2] = new Bishop(Color.WHITE, 7, 2, "c1");
-        board[7][3] = new Queen(Color.WHITE, 7, 3, "d1");
-        board[7][4] = new King(Color.WHITE, 7, 4, "e1");
-        board[7][5] = new Bishop(Color.WHITE, 7, 5, "f1");
-        board[7][6] = new Knight(Color.WHITE, 7, 6, "g1");
-        board[7][7] = new Rook(Color.WHITE, 7, 7, "h1");
+        board[7][0] = new Rook(Color.WHITE, 7, 0);
+        board[7][1] = new Knight(Color.WHITE, 7, 1);
+        board[7][2] = new Bishop(Color.WHITE, 7, 2);
+        board[7][3] = new Queen(Color.WHITE, 7, 3);
+        board[7][4] = new King(Color.WHITE, 7, 4);
+        board[7][5] = new Bishop(Color.WHITE, 7, 5);
+        board[7][6] = new Knight(Color.WHITE, 7, 6);
+        board[7][7] = new Rook(Color.WHITE, 7, 7);
         for (int i = 0; i < 8; i++) {
-            board[6][i] = new Pawn(Color.WHITE, 6, i, columns[i] + "2");
+            board[6][i] = new Pawn(Color.WHITE, 6, i);
         }
 
         for (int i = 2; i < 6; i++) {
@@ -64,6 +65,12 @@ public class GameBoard
      */
     public boolean movePiece(int fromRow, int fromCol, int toRow, int toCol)
     {
+        Piece selectedPiece = getPieceAt(fromRow, fromCol);
+        if (selectedPiece.canMoveTo(fromRow, fromCol, toRow, toCol, this)) {
+            setPieceAt(null, fromRow, fromCol);
+            setPieceAt(selectedPiece, toRow, toCol);
+            return true;
+        }
         return false;
     }
 
@@ -87,6 +94,16 @@ public class GameBoard
     public void setPieceAt(Piece piece, int row, int col)
     {
         board[row][col] = piece;
+    }
+
+    /**
+     * Determines if the current player is in check.
+     * @param currentPlayer the current player
+     * @return true if the current player is in checkmate, false otherwise
+     */
+    public boolean isCheck(Color currentPlayer)
+    {
+        return false;
     }
     
     /**

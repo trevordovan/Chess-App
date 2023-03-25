@@ -10,6 +10,9 @@ import chess.utils.Utils;
  */
 public class Game
 {
+    /**
+     * The gameboard.
+     */
     private GameBoard board;
 
     /**
@@ -51,28 +54,32 @@ public class Game
 
                 fromRowCol = Utils.convertFileRankToRowCol(input.substring(0, 2));
                 toRowCol = Utils.convertFileRankToRowCol(input.substring(3, 5));
-                if (fromRowCol != null && toRowCol != null) {
+
+                // Is Check
+                if (board.isCheck(currentPlayer)) {
+                    System.out.println(currentPlayer + " is in checkmate. Game over!");
+                    // only moves allowed are king
+                }
+        
+                // Is Checkmate
+                if (board.isCheckmate(currentPlayer)) {
+                    System.out.println(currentPlayer + " is in checkmate. Game over!");
+                    scanner.close();
+                    return;
+                }
+
+                // Attempt the move
+                if (board.movePiece(fromRowCol[0], fromRowCol[1], toRowCol[0], toRowCol[1])) {
                     break;
                 }
+                else {
+                    System.out.println("Invalid move.");
+                    continue;
+                }
             }
-     
-            // Make the move
-            boolean moveResult = board.movePiece(fromRowCol[0], fromRowCol[1], toRowCol[0], toRowCol[1]);
-            if (!moveResult) {
-                System.out.println("Invalid move.");
-                continue;
-            }
-    
-            // Check for game-ending conditions
-            if (board.isCheckmate(currentPlayer)) {
-                System.out.println(currentPlayer + " is in checkmate. Game over!");
-                break;
-            }
-    
             // Switch to the other player
             currentPlayer = (currentPlayer == Color.WHITE) ? Color.BLACK : Color.WHITE;
             System.out.println();
         }
-        scanner.close();
     }
 }
