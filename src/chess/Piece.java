@@ -1,7 +1,6 @@
 package chess;
 
 import chess.enums.Color;
-import chess.enums.PieceType;
 
 /**
  * Represents a chess piece on the game board.
@@ -12,11 +11,6 @@ public abstract class Piece
      * The color of the piece.
      */
     private Color color;
-
-    /**
-     * The type of the piece.
-     */
-    private PieceType type;
 
     /**
      * The row on the game board where the piece is located.
@@ -37,15 +31,13 @@ public abstract class Piece
      * Constructs a new Piece object with the given
      * color, type, row, column, location, and name.
      * @param color the color of the piece (either Color.WHITE or Color.BLACK)
-     * @param type the type of the piece (one of the values of the PieceType enumeration)
      * @param row the row of the piece on the board (0-7)
      * @param col the column of the piece on the board (0-7)
      * @param name the name of the piece (e.g. "wK" for a white king, "bP" for a black pawn, etc.)
      */
-    public Piece(Color color, PieceType type, int row, int col, String name)
+    public Piece(Color color, int row, int col, String name)
     {
         this.color = color;
-        this.type = type;
         this.row = row;
         this.col = col;
         this.name = name;
@@ -71,14 +63,6 @@ public abstract class Piece
      */
     public Color getColor() {
         return color;
-    }
-
-    /**
-     * Gets the type of the piece.
-     * @return the type of the piece
-     */
-    public PieceType getType() {
-        return type;
     }
 
     /**

@@ -3,7 +3,6 @@ package chess.pieces;
 import chess.GameBoard;
 import chess.Piece;
 import chess.enums.Color;
-import chess.enums.PieceType;
 
 /**
  * Represents a bishop chess piece on the game board.
@@ -19,7 +18,7 @@ public class Bishop extends Piece
      */
     public Bishop(Color color, int row, int col)
     {
-        super(color, PieceType.BISHOP, row, col, (color == Color.WHITE) ? "wB" : "bB");
+        super(color, row, col, (color == Color.WHITE) ? "wB" : "bB");
     }
 
     /**

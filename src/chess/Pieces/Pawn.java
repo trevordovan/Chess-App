@@ -3,7 +3,6 @@ package chess.pieces;
 import chess.GameBoard;
 import chess.Piece;
 import chess.enums.Color;
-import chess.enums.PieceType;
 
 /**
  * Represents a pawn chess piece on the game board.
@@ -19,7 +18,7 @@ public class Pawn extends Piece
      */
     public Pawn(Color color, int row, int col)
     {
-        super(color, PieceType.PAWN, row, col, (color == Color.WHITE) ? "wp" : "bp");
+        super(color, row, col, (color == Color.WHITE) ? "wp" : "bp");
     }
 
     /**

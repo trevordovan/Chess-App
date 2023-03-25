@@ -3,7 +3,6 @@ package chess.pieces;
 import chess.GameBoard;
 import chess.Piece;
 import chess.enums.Color;
-import chess.enums.PieceType;
 
 /**
  * Represents a Knight chess piece on the game board.
@@ -19,7 +18,7 @@ public class Knight extends Piece
      */
     public Knight(Color color, int row, int col)
     {
-        super(color, PieceType.KNIGHT, row, col, (color == Color.WHITE) ? "wN" : "bN");
+        super(color, row, col, (color == Color.WHITE) ? "wN" : "bN");
     }
 
     /**
