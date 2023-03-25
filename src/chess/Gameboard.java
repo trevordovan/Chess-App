@@ -72,6 +72,17 @@ public class GameBoard
     {
         return board[row][col];
     } 
+
+    /**
+     * Sets the specified piece at the given row and column on the chess board.
+     * @param piece the piece to set on the board
+     * @param row the row index where the piece is to be placed
+     * @param col the column index where the piece is to be placed
+     */
+    public void setPieceAt(Piece piece, int row, int col)
+    {
+        board[row][col] = piece;
+    }
     
     /**
      * Determines if the current player is in checkmate.
