@@ -2,10 +2,19 @@ package chess;
 
 import java.util.Scanner;
 
+import chess.enums.Color;
+import chess.utils.Utils;
+
+/**
+ * The `Game` class represents a game of chess.
+ */
 public class Game
 {
     private GameBoard board;
 
+    /**
+     * Creates a new game of chess.
+     */
     public Game()
     {
         board = new GameBoard();
@@ -23,11 +32,11 @@ public class Game
     
         while (true) {
             board.printBoard();
-    
-            // Get the player's move
             System.out.print(Utils.capitalize(currentPlayer.toString()) + "'s move: ");
 
             String input;
+            int[] fromRowCol;
+            int[] toRowCol; 
             while (true) {
                 input = scanner.nextLine();
                 if (input.equals("q")) {
@@ -35,44 +44,35 @@ public class Game
                     return;
                 }
 
-                // Validate input format
-                if (input.length() != 5) {
+                if (!Utils.isValidInput(input)) {
                     System.out.println("Invalid input format");
                     continue;
                 }
 
-                char fromFile = input.charAt(0);
-                char fromRank = input.charAt(1);
-                char toFile = input.charAt(3);
-                char toRank = input.charAt(4);
-                if (fromFile < 'a' || fromFile > 'h' || fromRank < '1' || fromRank > '8' ||
-                    toFile < 'a' || toFile > 'h' || toRank < '1' || toRank > '8') {
-                    System.out.println("Invalid input format");
-                    continue;
-                }
-
-                int[] fromRowCol = Utils.convertFileRankToRowCol(input.substring(0, 2));
-                int[] toRowCol = Utils.convertFileRankToRowCol(input.substring(3, 5));
+                fromRowCol = Utils.convertFileRankToRowCol(input.substring(0, 2));
+                toRowCol = Utils.convertFileRankToRowCol(input.substring(3, 5));
                 if (fromRowCol != null && toRowCol != null) {
                     break;
                 }
             }
      
             // Make the move
-            // boolean moveResult = board.movePiece(fromRowCol[0], fromRowCol[1], toRowCol[0], toRowCol[1]);
-            // if (!moveResult) {
-            //     System.out.println("Invalid move.");
-            //     continue;
-            // }
+            boolean moveResult = board.movePiece(fromRowCol[0], fromRowCol[1], toRowCol[0], toRowCol[1]);
+            if (!moveResult) {
+                System.out.println("Invalid move.");
+                continue;
+            }
     
             // Check for game-ending conditions
-            // if (board.isCheckmate(currentPlayer)) {
-            //     System.out.println(currentPlayer + " is in checkmate. Game over!");
-            //     break;
-            // }
+            if (board.isCheckmate(currentPlayer)) {
+                System.out.println(currentPlayer + " is in checkmate. Game over!");
+                break;
+            }
     
             // Switch to the other player
             currentPlayer = (currentPlayer == Color.WHITE) ? Color.BLACK : Color.WHITE;
+            System.out.println();
         }
+        scanner.close();
     }
 }

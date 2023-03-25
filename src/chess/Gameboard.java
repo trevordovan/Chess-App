@@ -1,7 +1,12 @@
 package chess;
 
-import chess.Pieces.*;
+import chess.enums.Color;
+import chess.pieces.*;
 
+/**
+ * The GameBoard class represents a chess game 
+ * board with pieces in their starting positions.
+ */
 public class GameBoard
 { 
     char[] columns = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h' };
@@ -9,8 +14,8 @@ public class GameBoard
     private Piece[][] board;
 
     /**
-     * Initializes the chess game board by placing all the pieces in their
-     * starting positions.
+     * Initializes the chess game board by placing 
+     * all the pieces in their starting positions.
      */
     public GameBoard()
     {
@@ -57,9 +62,9 @@ public class GameBoard
      * @param toRow   the row index of the destination square
      * @param toCol   the column index of the destination square
      */
-    public void movePiece(int fromRow, int fromCol, int toRow, int toCol)
+    public boolean movePiece(int fromRow, int fromCol, int toRow, int toCol)
     {
-        
+        return false;
     }
 
     /**
@@ -91,7 +96,7 @@ public class GameBoard
      */
     public boolean isCheckmate(Color currentPlayer)
     {
-        return true;
+        return false;
     }
 
     /**

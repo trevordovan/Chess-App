@@ -1,8 +1,9 @@
-package chess.Pieces;
+package chess.pieces;
 
-import chess.Color;
 import chess.GameBoard;
-import chess.PieceType;
+import chess.Piece;
+import chess.enums.Color;
+import chess.enums.PieceType;
 
 public class Bishop extends Piece
 {

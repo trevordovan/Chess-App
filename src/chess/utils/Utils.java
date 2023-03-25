@@ -1,10 +1,25 @@
-package chess;
+package chess.utils;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class Utils
 {   
+    public static boolean isValidInput(String input) {
+        if (input.length() != 5) {
+            return false;
+        }
+
+        char fromFile = input.charAt(0);
+        char fromRank = input.charAt(1);
+        char toFile = input.charAt(3);
+        char toRank = input.charAt(4);
+        if (fromFile < 'a' || fromFile > 'h' || fromRank < '1' || fromRank > '8' ||
+            toFile < 'a' || toFile > 'h' || toRank < '1' || toRank > '8') {
+            return false;
+        }
+        return true;
+    }
     private static final Map<String, Integer> COLUMN_MAP = new HashMap<>();
     static {
         COLUMN_MAP.put("a", 0);
