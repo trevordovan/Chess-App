@@ -5,21 +5,6 @@ import java.util.Map;
 
 public class Utils
 {   
-    public static boolean isValidInput(String input) {
-        if (input.length() != 5) {
-            return false;
-        }
-
-        char fromFile = input.charAt(0);
-        char fromRank = input.charAt(1);
-        char toFile = input.charAt(3);
-        char toRank = input.charAt(4);
-        if (fromFile < 'a' || fromFile > 'h' || fromRank < '1' || fromRank > '8' ||
-            toFile < 'a' || toFile > 'h' || toRank < '1' || toRank > '8') {
-            return false;
-        }
-        return true;
-    }
     private static final Map<String, Integer> COLUMN_MAP = new HashMap<>();
     static {
         COLUMN_MAP.put("a", 0);
@@ -40,10 +25,10 @@ public class Utils
     public static int[] convertFileRankToRowCol(String input)
     {
         String columnStr = input.substring(0, 1);
-        int row = Integer.parseInt(input.substring(1)) - 1;
+        int row = 8 - Integer.parseInt(input.substring(1));
         int col = COLUMN_MAP.get(columnStr);
         return new int[] { row, col };
-    }
+    }    
 
     /**
      * Converts row and column integers to the corresponding chess board location string (e.g. "a3").
@@ -51,13 +36,8 @@ public class Utils
      * @param col the column integer
      * @return the chess board location string
      */
-    public static String convertRowColToFileRank(int row, int col)
+    public static String convertRowColToFileRank(int row, char col)
     {
-        if (col < 'a' || col > 'h' || row < '1' || row > '8') {
-            System.out.println("Invalid input format");
-            return null;
-        }
-
         String columnStr = "";
         switch (col) {
             case 0:
@@ -89,6 +69,28 @@ public class Utils
         }
         int rowNumber = 8 - row;
         return columnStr + rowNumber;
+    }
+
+    /**
+     * Validates the user input for a move in the format of "e2 e4"
+     * @param input The user input to validate
+     * @return true if the input is valid, false otherwise
+     */
+    public static boolean isValidInput(String input)
+    {
+        if (input.length() != 5) {
+            return false;
+        }
+
+        char fromFile = input.charAt(0);
+        char fromRank = input.charAt(1);
+        char toFile = input.charAt(3);
+        char toRank = input.charAt(4);
+        if (fromFile < 'a' || fromFile > 'h' || fromRank < '1' || fromRank > '8' ||
+            toFile < 'a' || toFile > 'h' || toRank < '1' || toRank > '8') {
+            return false;
+        }
+        return true;
     }
 
     /**
