@@ -1,6 +1,6 @@
 package chess.pieces;
 
-import java.util.Set;
+import java.util.*;
 
 import chess.GameBoard;
 import chess.Piece;
@@ -48,6 +48,6 @@ public class Bishop extends Piece
      */
     @Override
     public Set<Integer> getAttackSquares(GameBoard board) {
-        return null;
+       return null;
     }
 }
