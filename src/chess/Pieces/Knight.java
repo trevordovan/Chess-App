@@ -57,20 +57,26 @@ public class Knight extends Piece {
         Set<Integer> attacks = new HashSet<>();
 
         // Generate all possible moves for the knight
-        int[][] possibleMoves = { { -2, -1 }, { -2, 1 }, { -1, -2 }, { -1, 2 }, { 1, -2 }, { 1, 2 }, { 2, -1 }, { 2, 1 } };
-
+        int[][] possibleMoves = {
+                { -2, -1 }, { -2, 1 },
+                { -1, -2 }, { -1, 2 },
+                { 1, -2 }, { 1, 2 },
+                { 2, -1 }, { 2, 1 }
+        };
+    
         // Check each possible move for validity
         for (int[] move : possibleMoves) {
             int destRow = getRow() + move[0];
             int destCol = getCol() + move[1];
-
+    
             if (destRow >= 0 && destRow < 8 && destCol >= 0 && destCol < 8) {
                 Piece piece = board.getPieceAt(destRow, destCol);
                 if (piece == null || piece.getColor() != getColor()) {
-                    attacks.add(Utils.toIndex(destRow,destCol));
+                    attacks.add(Utils.toIndex(destRow, destCol));
                 }
             }
         }
+    
         return attacks;
     }
 

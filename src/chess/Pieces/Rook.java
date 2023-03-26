@@ -49,7 +49,7 @@ public class Rook extends Piece {
         }
 
         // Check if there are any pieces blocking the rook's path
-        if (fromRow == toRow && Math.abs(toCol - fromCol) > 0) {
+        if (fromRow == toRow) {
             int start = Math.min(fromCol, toCol);
             int end = Math.max(fromCol, toCol);
             for (int c = start + 1; c < end; c++) {
@@ -58,7 +58,7 @@ public class Rook extends Piece {
                     return false;
                 }
             }
-        } else if (fromCol == toCol && Math.abs(toRow - fromRow) > 0) {
+        } else if (fromCol == toCol) {
             int start = Math.min(fromRow, toRow);
             int end = Math.max(fromRow, toRow);
             for (int r = start + 1; r < end; r++) {
@@ -96,34 +96,55 @@ public class Rook extends Piece {
     public Set<Integer> getAttackSquares(GameBoard board) {
         Set<Integer> attacks = new HashSet<>();
 
-        // Check for attacks in all four directions
-        int[][] directions = { { -1, 0 }, { 0, 1 }, { 1, 0 }, { 0, -1 } };
-        for (int[] direction : directions) {
-            int rowOffset = direction[0];
-            int colOffset = direction[1];
-
-            // Check each square in the current direction until we hit an obstacle or the
-            // edge of the board
-            int currentRow = getRow() + rowOffset;
-            int currentCol = getCol() + colOffset;
-            while (currentRow >= 0 && currentRow < 8 && currentCol >= 0 && currentCol < 8) {
-                Piece piece = board.getPieceAt(currentRow, currentCol);
-                if (piece == null) {
-                    // Square is empty, so add it to the attack set and continue checking in this
-                    // direction
-                    attacks.add(currentRow * 8 + currentCol);
-                } else if (piece.getColor() != getColor()) {
-                    // Square is occupied by an enemy piece, so add it to the attack set but stop
-                    // checking in this direction
-                    attacks.add(currentRow * 8 + currentCol);
-                    break;
-                } else {
-                    // Square is occupied by a friendly piece, so stop checking in this direction
-                    break;
+        // Check squares above the rook
+        for (int row = getRow() - 1; row >= 0; row--) {
+            Piece piece = board.getPieceAt(row, getCol());
+            if (piece == null) {
+                attacks.add(row * 8 + getCol());
+            } else {
+                if (piece.getColor() != getColor()) {
+                    attacks.add(row * 8 + getCol());
                 }
+                break;
+            }
+        }
 
-                currentRow += rowOffset;
-                currentCol += colOffset;
+        // Check squares below the rook
+        for (int row = getRow() + 1; row < 8; row++) {
+            Piece piece = board.getPieceAt(row, getCol());
+            if (piece == null) {
+                attacks.add(row * 8 + getCol());
+            } else {
+                if (piece.getColor() != getColor()) {
+                    attacks.add(row * 8 + getCol());
+                }
+                break;
+            }
+        }
+
+        // Check squares to the right of the rook
+        for (int col = getCol() + 1; col < 8; col++) {
+            Piece piece = board.getPieceAt(getRow(), col);
+            if (piece == null) {
+                attacks.add(getRow() * 8 + col);
+            } else {
+                if (piece.getColor() != getColor()) {
+                    attacks.add(getRow() * 8 + col);
+                }
+                break;
+            }
+        }
+
+        // Check squares to the left of the rook
+        for (int col = getCol() - 1; col >= 0; col--) {
+            Piece piece = board.getPieceAt(getRow(), col);
+            if (piece == null) {
+                attacks.add(getRow() * 8 + col);
+            } else {
+                if (piece.getColor() != getColor()) {
+                    attacks.add(getRow() * 8 + col);
+                }
+                break;
             }
         }
 
