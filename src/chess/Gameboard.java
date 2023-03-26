@@ -17,7 +17,7 @@ public class GameBoard
     private Piece[][] board;
 
     /**
-     * 
+     * The color of the current player
      */
     private Color currentPlayer;
 
@@ -73,13 +73,14 @@ public class GameBoard
     public boolean movePiece(int fromRow, int fromCol, int toRow, int toCol)
     {
         Piece selectedPiece = getPieceAt(fromRow, fromCol);
+        if (selectedPiece == null) {
+            return false;
+        }
+        
         if (selectedPiece.getColor() != currentPlayer) {
             return false;
         }
 
-        if (selectedPiece == null) {
-            return false;
-        }
         if (selectedPiece.canMoveTo(fromRow, fromCol, toRow, toCol, this)) {
             setPieceAt(null, fromRow, fromCol);
             setPieceAt(selectedPiece, toRow, toCol);
