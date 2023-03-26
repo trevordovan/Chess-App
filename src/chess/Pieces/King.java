@@ -1,10 +1,12 @@
 package chess.pieces;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import chess.GameBoard;
 import chess.Piece;
 import chess.enums.Color;
+import chess.utils.Utils;
 
 /**
  * Represents a king chess piece on the game board.
@@ -37,6 +39,16 @@ public class King extends Piece
     @Override
     public boolean canMoveTo(int fromRow, int fromCol, int toRow, int toCol, GameBoard board)
     {
+        Piece toPiece = board.getPieceAt(toRow, toCol);
+        if (toPiece != null) {
+            if (toPiece.getColor() == getColor()) {
+                return false;
+            }
+        }
+        if (Math.abs(toRow - fromRow) <= 1 && Math.abs(toCol - fromCol) <= 1) {
+            // The destination square is adjacent to the king
+            return true;
+        }
         return false;
     }
 
@@ -48,6 +60,21 @@ public class King extends Piece
      */
     @Override
     public Set<Integer> getAttackSquares(GameBoard board) {
-        return null;
+        Set<Integer> attacks = new HashSet<>();
+        int[] kingPos = board.findKing(this.getColor());
+        int row = kingPos[0];
+        int col = kingPos[1];
+    
+        // Check all squares around the king for attack
+        for (int r = row - 1; r <= row + 1; r++) {
+            for (int c = col - 1; c <= col + 1; c++) {
+                if ((r == row && c == col) || r < 0 || c < 0 || r > 7 || c > 7) {
+                    // Skip the current square if it's the king's position or out of bounds
+                    continue;
+                }
+                attacks.add(Utils.toIndex(r, c));
+            }
+        }
+        return attacks;
     }
 }
