@@ -13,14 +13,14 @@ public class Game
     /**
      * The gameboard.
      */
-    private GameBoard board;
+    private Gameboard board;
 
     /**
      * Creates a new game of chess.
      */
     public Game()
     {
-        board = new GameBoard();
+        board = new Gameboard();
     }
 
     /**

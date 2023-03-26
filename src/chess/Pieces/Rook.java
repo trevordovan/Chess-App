@@ -2,14 +2,16 @@ package chess.pieces;
 
 import java.util.*;
 
-import chess.GameBoard;
+import chess.Gameboard;
 import chess.Piece;
 import chess.enums.Color;
+import chess.utils.Utils;
 
 /**
  * Represents a Rook chess piece on the game board.
  */
-public class Rook extends Piece {
+public class Rook extends Piece
+{
     /**
      * Constructs a new Rook Piece object with the given
      * color, row, and column.
@@ -18,7 +20,8 @@ public class Rook extends Piece {
      * @param row   the row of the piece on the board (0-7)
      * @param col   the column of the piece on the board (0-7)
      */
-    public Rook(Color color, int row, int col) {
+    public Rook(Color color, int row, int col)
+    {
         super(color, row, col, (color == Color.WHITE) ? "wR" : "bR");
     }
 
@@ -35,13 +38,13 @@ public class Rook extends Piece {
      * @return true if the move is valid, false otherwise
      */
     @Override
-    public boolean canMoveTo(int fromRow, int fromCol, int toRow, int toCol, GameBoard board) {
+    public boolean canMoveTo(int fromRow, int fromCol, int toRow, int toCol, Gameboard board)
+    {
         // Get the attack squares for the rook
         Set<Integer> attacks = getAttackSquares(board);
 
         // Convert the starting and ending positions to integer indices
-        int fromIndex = fromRow * 8 + fromCol;
-        int toIndex = toRow * 8 + toCol;
+        int toIndex = Utils.toIndex(toRow, toCol);
 
         // Check if the ending position is one of the attack squares
         if (!attacks.contains(toIndex)) {
@@ -93,17 +96,18 @@ public class Rook extends Piece {
      *         attacking
      */
     @Override
-    public Set<Integer> getAttackSquares(GameBoard board) {
+    public Set<Integer> getAttackSquares(Gameboard board)
+    {
         Set<Integer> attacks = new HashSet<>();
 
         // Check squares above the rook
         for (int row = getRow() - 1; row >= 0; row--) {
             Piece piece = board.getPieceAt(row, getCol());
             if (piece == null) {
-                attacks.add(row * 8 + getCol());
+                attacks.add(Utils.toIndex(row,getCol()));
             } else {
                 if (piece.getColor() != getColor()) {
-                    attacks.add(row * 8 + getCol());
+                    attacks.add(Utils.toIndex(row, getCol()));
                 }
                 break;
             }
@@ -113,10 +117,10 @@ public class Rook extends Piece {
         for (int row = getRow() + 1; row < 8; row++) {
             Piece piece = board.getPieceAt(row, getCol());
             if (piece == null) {
-                attacks.add(row * 8 + getCol());
+                attacks.add(Utils.toIndex(row, getCol()));
             } else {
                 if (piece.getColor() != getColor()) {
-                    attacks.add(row * 8 + getCol());
+                    attacks.add(Utils.toIndex(row, getCol()));
                 }
                 break;
             }
@@ -126,10 +130,10 @@ public class Rook extends Piece {
         for (int col = getCol() + 1; col < 8; col++) {
             Piece piece = board.getPieceAt(getRow(), col);
             if (piece == null) {
-                attacks.add(getRow() * 8 + col);
+                attacks.add(Utils.toIndex(getRow(), col));
             } else {
                 if (piece.getColor() != getColor()) {
-                    attacks.add(getRow() * 8 + col);
+                    attacks.add(Utils.toIndex(getRow(), col));
                 }
                 break;
             }
@@ -139,15 +143,14 @@ public class Rook extends Piece {
         for (int col = getCol() - 1; col >= 0; col--) {
             Piece piece = board.getPieceAt(getRow(), col);
             if (piece == null) {
-                attacks.add(getRow() * 8 + col);
+                attacks.add(Utils.toIndex(getRow(), col));
             } else {
                 if (piece.getColor() != getColor()) {
-                    attacks.add(getRow() * 8 + col);
+                    attacks.add(Utils.toIndex(getRow(), col));
                 }
                 break;
             }
         }
-
         return attacks;
     }
 }
