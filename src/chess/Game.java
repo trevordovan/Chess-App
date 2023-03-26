@@ -16,6 +16,11 @@ public class Game
     private GameBoard board;
 
     /**
+     * Boolean representing whether a player is currently in check or not.
+     */
+    private boolean isInCheck;
+
+    /**
      * Creates a new game of chess.
      */
     public Game()
@@ -35,6 +40,22 @@ public class Game
     
         while (true) {
             board.printBoard();
+
+            // Is Check
+            if (board.isCheck(currentPlayer)) {
+                System.out.println("Check");
+                isInCheck = true;
+            }
+
+            // Is Checkmate
+            if (board.isCheckmate(currentPlayer)) {
+                System.out.println("Checkmate");
+                Color winner = currentPlayer == Color.WHITE ? Color.BLACK : Color.WHITE;
+                System.out.println(Utils.capitalize(winner.toString()) + " wins");
+                scanner.close();
+                return;
+            }
+
             System.out.print(Utils.capitalize(currentPlayer.toString()) + "'s move: ");
 
             String input;
@@ -47,25 +68,33 @@ public class Game
                     return;
                 }
 
+                if (input.equals("resign")) {
+                    Color winner = currentPlayer == Color.WHITE ? Color.BLACK : Color.WHITE;
+                    System.out.println(Utils.capitalize(winner.toString()) + " wins");
+                    scanner.close();
+                    return;
+                }
+
+                if (input.length() > 5) {
+                    if (input.substring(6).equals("draw?")) {
+                        String draw = scanner.nextLine();
+                        if (draw.equals("draw")) {
+                            scanner.close();
+                            return;
+                        }
+                    }
+                }
+                
                 if (!Utils.isValidInput(input)) {
                     System.out.println("Invalid input format");
                     continue;
                 }
-
+                
                 fromRowCol = Utils.convertFileRankToRowCol(input.substring(0, 2));
                 toRowCol = Utils.convertFileRankToRowCol(input.substring(3, 5));
-
-                // Is Check
-                if (board.isCheck(currentPlayer)) {
-                    System.out.println(currentPlayer + " is in checkmate. Game over!");
-                    // only moves allowed are king
-                }
-        
-                // Is Checkmate
-                if (board.isCheckmate(currentPlayer)) {
-                    System.out.println(currentPlayer + " is in checkmate. Game over!");
-                    scanner.close();
-                    return;
+                
+                if (isInCheck) {
+                    
                 }
 
                 // Attempt the move
@@ -73,7 +102,7 @@ public class Game
                     break;
                 }
                 else {
-                    System.out.println("Invalid move.");
+                    System.out.println("Illegal move, try again");
                     continue;
                 }
             }

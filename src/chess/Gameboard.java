@@ -132,7 +132,7 @@ public class GameBoard
         Piece promotedPiece = null;
         
         System.out.print("Choose your promotion (Q, R, B, N): ");
-        Scanner scanner = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in); // not closed because we are still scanning for moves after
         boolean isValidInput = false;
         while (!isValidInput) {
             String input = scanner.nextLine();
