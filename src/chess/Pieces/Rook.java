@@ -36,7 +36,50 @@ public class Rook extends Piece {
      */
     @Override
     public boolean canMoveTo(int fromRow, int fromCol, int toRow, int toCol, GameBoard board) {
-        return false;
+        // Get the attack squares for the rook
+        Set<Integer> attacks = getAttackSquares(board);
+
+        // Convert the starting and ending positions to integer indices
+        int fromIndex = fromRow * 8 + fromCol;
+        int toIndex = toRow * 8 + toCol;
+
+        // Check if the ending position is one of the attack squares
+        if (!attacks.contains(toIndex)) {
+            return false;
+        }
+
+        // Check if there are any pieces blocking the rook's path
+        if (fromRow == toRow && Math.abs(toCol - fromCol) > 0) {
+            int start = Math.min(fromCol, toCol);
+            int end = Math.max(fromCol, toCol);
+            for (int c = start + 1; c < end; c++) {
+                Piece piece = board.getPieceAt(fromRow, c);
+                if (piece != null) {
+                    return false;
+                }
+            }
+        } else if (fromCol == toCol && Math.abs(toRow - fromRow) > 0) {
+            int start = Math.min(fromRow, toRow);
+            int end = Math.max(fromRow, toRow);
+            for (int r = start + 1; r < end; r++) {
+                Piece piece = board.getPieceAt(r, fromCol);
+                if (piece != null) {
+                    return false;
+                }
+            }
+        } else {
+            // Invalid move for rook
+            return false;
+        }
+
+        // Check if the piece at the starting position is the same color as the current
+        // turn
+        if (board.getPieceAt(fromRow, fromCol).getColor() != board.getCurrentPlayer()) {
+            return false;
+        }
+
+        // Move is valid
+        return true;
     }
 
     /**
