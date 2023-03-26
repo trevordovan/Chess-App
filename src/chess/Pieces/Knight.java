@@ -41,9 +41,34 @@ public class Knight extends Piece {
         // Convert the starting and ending positions to integer indices
         int fromIndex = Utils.toIndex(fromRow, fromCol);
         int toIndex = Utils.toIndex(toRow, toCol);
-
+    
         // Check if the ending position is one of the attack squares
-        return attacks.contains(toIndex);
+        if (attacks.contains(toIndex)) {
+            return true;
+        }
+    
+        // Generate all possible moves for the knight
+        int[][] possibleMoves = {
+            {-2, -1}, {-2, 1},
+            {-1, -2}, {-1, 2},
+            {1, -2}, {1, 2},
+            {2, -1}, {2, 1}
+        };
+    
+        // Check if the ending position is a valid move for the knight
+        for (int[] move : possibleMoves) {
+            int destRow = fromRow + move[0];
+            int destCol = fromCol + move[1];
+    
+            if (destRow == toRow && destCol == toCol) {
+                Piece piece = board.getPieceAt(toRow, toCol);
+                if (piece == null || piece.getColor() != getColor()) {
+                    return true;
+                }
+            }
+        }
+    
+        return false;
     }
 
     /**
@@ -58,10 +83,15 @@ public class Knight extends Piece {
 
         // Generate all possible moves for the knight
         int[][] possibleMoves = {
-                { -2, -1 }, { -2, 1 },
-                { -1, -2 }, { -1, 2 },
-                { 1, -2 }, { 1, 2 },
-                { 2, -1 }, { 2, 1 }
+            { -2, -1 }, { -2, 1 },
+            { -1, -2 }, { -1, 2 },
+            { 1, -2 }, { 1, 2 },
+            { 2, -1 }, { 2, 1 },
+            // add the corresponding backward moves
+            { -2, 1 }, { -2, -1 },
+            { -1, 2 }, { -1, -2 },
+            { 1, 2 }, { 1, -2 },
+            { 2, 1 }, { 2, -1 }
         };
     
         // Check each possible move for validity
