@@ -1,6 +1,6 @@
 package chess;
 
-import java.util.Map;
+import java.util.Set;
 
 import chess.enums.Color;
 
@@ -59,7 +59,13 @@ public abstract class Piece
      */
     public abstract boolean canMoveTo(int fromRow, int fromCol, int toRow, int toCol, GameBoard board);
 
-    //public abstract Map getAttackSquares(GameBoard board);
+    /**
+     * Returns a set of integers representing the squares that this piece is attacking on the game board.
+     * This method should be overridden by subclasses to implement piece-specific attack rules.
+     * @param board the game board on which the piece is attacking
+     * @return a set of integers representing the squares that this piece is attacking
+     */
+    public abstract Set<Integer> getAttackSquares(GameBoard board);
 
     /**
      * Gets the color of the piece.

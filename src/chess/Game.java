@@ -37,17 +37,16 @@ public class Game
     public void play() {
         Scanner scanner = new Scanner(System.in);
         Color currentPlayer = Color.WHITE;
+        board.setCurrentPlayer(Color.WHITE);
     
         while (true) {
             board.printBoard();
 
-            // Is Check
             if (board.isCheck(currentPlayer)) {
                 System.out.println("Check");
                 isInCheck = true;
             }
 
-            // Is Checkmate
             if (board.isCheckmate(currentPlayer)) {
                 System.out.println("Checkmate");
                 Color winner = currentPlayer == Color.WHITE ? Color.BLACK : Color.WHITE;
@@ -97,7 +96,6 @@ public class Game
                     
                 }
 
-                // Attempt the move
                 if (board.movePiece(fromRowCol[0], fromRowCol[1], toRowCol[0], toRowCol[1])) {
                     break;
                 }
@@ -106,8 +104,8 @@ public class Game
                     continue;
                 }
             }
-            // Switch to the other player
             currentPlayer = (currentPlayer == Color.WHITE) ? Color.BLACK : Color.WHITE;
+            board.setCurrentPlayer(currentPlayer);
             System.out.println();
         }
     }

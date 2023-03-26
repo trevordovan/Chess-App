@@ -17,6 +17,11 @@ public class GameBoard
     private Piece[][] board;
 
     /**
+     * 
+     */
+    private Color currentPlayer;
+
+    /**
      * Initializes the chess game board by placing 
      * all the pieces in their starting positions.
      */
@@ -68,6 +73,10 @@ public class GameBoard
     public boolean movePiece(int fromRow, int fromCol, int toRow, int toCol)
     {
         Piece selectedPiece = getPieceAt(fromRow, fromCol);
+        if (selectedPiece.getColor() != currentPlayer) {
+            return false;
+        }
+
         if (selectedPiece == null) {
             return false;
         }
@@ -190,5 +199,13 @@ public class GameBoard
         System.out.println("\n");
     }
 
+    public Color getCurrentPlayer()
+    {
+        return currentPlayer;
+    }
 
+    public void setCurrentPlayer(Color color)
+    {
+        currentPlayer = color;
+    }
 }

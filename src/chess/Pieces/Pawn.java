@@ -1,6 +1,6 @@
 package chess.pieces;
 
-import java.util.Map;
+import java.util.Set;
 
 import chess.GameBoard;
 import chess.Piece;
@@ -79,32 +79,15 @@ public class Pawn extends Piece
         return false;
     }
 
-    // @Override
-    // public Map<String, Piece> getAttackSquares(GameBoard board) {
-    //     Map<String, Piece> attackSquares = new HashMap<>();
-    
-    //     // -1 for white, 1 for black
-    //     int forwardDirection = this.getColor() == Color.WHITE ? -1 : 1;
-    
-    //     // Check for captures diagonally
-    //     if (board.isValidSquare(this.getRow()+forwardDirection, this.getCol()-1)) {
-    //         Piece capturedPiece = board.getPieceAt(this.getRow()+forwardDirection, this.getCol()-1);
-    //         if (capturedPiece != null && capturedPiece.getColor() != this.getColor()) {
-    //             attackSquares.put(getSquareName(this.getRow()+forwardDirection, this.getCol()-1), capturedPiece);
-    //         }
-    //     }
-    //     if (board.isValidSquare(this.getRow()+forwardDirection, this.getCol()+1)) {
-    //         Piece capturedPiece = board.getPieceAt(this.getRow()+forwardDirection, this.getCol()+1);
-    //         if (capturedPiece != null && capturedPiece.getColor() != this.getColor()) {
-    //             attackSquares.put(getSquareName(this.getRow()+forwardDirection, this.getCol()+1), capturedPiece);
-    //         }
-    //     }
-    
-    //     return attackSquares;
-    // }
-    
-    // private String getSquareName(int row, int col) {
-    //     return Character.toString((char)(col + 97)) + Integer.toString(8 - row);
-    // }
+    /**
+     * Returns a set of integers representing the squares that this piece is attacking on the game board.
+     * This method should be overridden by subclasses to implement piece-specific attack rules.
+     * @param board the game board on which the piece is attacking
+     * @return a set of integers representing the squares that this piece is attacking
+     */
+    @Override
+    public Set<Integer> getAttackSquares(GameBoard board) {
+        return null;
+    }
     
 }

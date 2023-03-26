@@ -1,5 +1,7 @@
 package chess.pieces;
 
+import java.util.Set;
+
 import chess.GameBoard;
 import chess.Piece;
 import chess.enums.Color;
@@ -36,5 +38,16 @@ public class King extends Piece
     public boolean canMoveTo(int fromRow, int fromCol, int toRow, int toCol, GameBoard board)
     {
         return false;
+    }
+
+    /**
+     * Returns a set of integers representing the squares that this piece is attacking on the game board.
+     * This method should be overridden by subclasses to implement piece-specific attack rules.
+     * @param board the game board on which the piece is attacking
+     * @return a set of integers representing the squares that this piece is attacking
+     */
+    @Override
+    public Set<Integer> getAttackSquares(GameBoard board) {
+        return null;
     }
 }
