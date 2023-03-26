@@ -1,5 +1,7 @@
 package chess;
 
+import java.util.Map;
+
 import chess.enums.Color;
 
 /**
@@ -56,6 +58,8 @@ public abstract class Piece
      * @return true if the move is valid, false otherwise
      */
     public abstract boolean canMoveTo(int fromRow, int fromCol, int toRow, int toCol, GameBoard board);
+
+    //public abstract Map getAttackSquares(GameBoard board);
 
     /**
      * Gets the color of the piece.

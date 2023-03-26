@@ -1,5 +1,7 @@
 package chess.pieces;
 
+import java.util.Map;
+
 import chess.GameBoard;
 import chess.Piece;
 import chess.enums.Color;
@@ -76,4 +78,33 @@ public class Pawn extends Piece
         // Move is not valid
         return false;
     }
+
+    // @Override
+    // public Map<String, Piece> getAttackSquares(GameBoard board) {
+    //     Map<String, Piece> attackSquares = new HashMap<>();
+    
+    //     // -1 for white, 1 for black
+    //     int forwardDirection = this.getColor() == Color.WHITE ? -1 : 1;
+    
+    //     // Check for captures diagonally
+    //     if (board.isValidSquare(this.getRow()+forwardDirection, this.getCol()-1)) {
+    //         Piece capturedPiece = board.getPieceAt(this.getRow()+forwardDirection, this.getCol()-1);
+    //         if (capturedPiece != null && capturedPiece.getColor() != this.getColor()) {
+    //             attackSquares.put(getSquareName(this.getRow()+forwardDirection, this.getCol()-1), capturedPiece);
+    //         }
+    //     }
+    //     if (board.isValidSquare(this.getRow()+forwardDirection, this.getCol()+1)) {
+    //         Piece capturedPiece = board.getPieceAt(this.getRow()+forwardDirection, this.getCol()+1);
+    //         if (capturedPiece != null && capturedPiece.getColor() != this.getColor()) {
+    //             attackSquares.put(getSquareName(this.getRow()+forwardDirection, this.getCol()+1), capturedPiece);
+    //         }
+    //     }
+    
+    //     return attackSquares;
+    // }
+    
+    // private String getSquareName(int row, int col) {
+    //     return Character.toString((char)(col + 97)) + Integer.toString(8 - row);
+    // }
+    
 }

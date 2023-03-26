@@ -4,7 +4,7 @@
 - Trevor Dovan  
 - Kate Liu    
 
-## **Folder** Structure
+## **Folder Structure**
 The workspace contains three folders by default, where:
 - `src`: the folder to maintain sources
 - `docs`: the folder to store generated docs
@@ -14,11 +14,9 @@ and an addition folder:
 
 ## **Design**
 ### **Gameboard**
+2D Array of pieces.
 
 ### **Piece Class**
 
 ### **Game Logic**
-
-### **Move Mechanic**
-
-### **Win/Lose/Draw/Resign**
+#### **Win/Lose/Draw/Resign**
