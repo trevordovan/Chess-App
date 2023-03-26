@@ -16,11 +16,6 @@ public class Game
     private GameBoard board;
 
     /**
-     * Boolean representing whether a player is currently in check or not.
-     */
-    private boolean isInCheck;
-
-    /**
      * Creates a new game of chess.
      */
     public Game()
@@ -42,9 +37,9 @@ public class Game
         while (true) {
             board.printBoard();
 
+            // This could be printed when it's checked later, there is no need to run it a second time here
             if (board.isCheck(currentPlayer)) {
                 System.out.println("Check");
-                isInCheck = true;
             }
 
             if (board.isCheckmate(currentPlayer)) {
@@ -92,11 +87,17 @@ public class Game
                 fromRowCol = Utils.convertFileRankToRowCol(input.substring(0, 2));
                 toRowCol = Utils.convertFileRankToRowCol(input.substring(3, 5));
                 
-                if (isInCheck) {
-                    
-                }
+                Piece tempFromPiece = board.getPieceAt(fromRowCol[0], fromRowCol[1]);
+                Piece tempToPiece = board.getPieceAt(toRowCol[0], toRowCol[1]);
 
                 if (board.movePiece(fromRowCol[0], fromRowCol[1], toRowCol[0], toRowCol[1])) {
+                    if (board.isCheck(currentPlayer)) {
+                        // undo move
+                        board.setPieceAt(tempFromPiece, fromRowCol[0], fromRowCol[1]);
+                        board.setPieceAt(tempToPiece, toRowCol[0], toRowCol[1]);
+                        System.out.println("Illegal move, try again");
+                        continue;
+                    }
                     break;
                 }
                 else {

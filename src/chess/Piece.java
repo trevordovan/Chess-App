@@ -83,7 +83,6 @@ public abstract class Piece
         return row;
     }
 
-
     /**
      * Gets the column of the piece on the game board.
      * @return the column of the piece
