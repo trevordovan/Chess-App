@@ -3,6 +3,8 @@ package chess.pieces;
 import chess.GameBoard;
 import chess.Piece;
 import chess.enums.Color;
+import chess.utils.Utils;
+
 import java.util.*;
 
 /**
@@ -25,7 +27,6 @@ public class Knight extends Piece {
      * Determines whether or not a knight can move from the specified
      * starting position to the specified ending positionon the given
      * game board.
-     * 
      * @param fromRow the starting row of the piece
      * @param fromCol the starting column of the piece
      * @param toRow   the ending row of the piece
@@ -38,8 +39,8 @@ public class Knight extends Piece {
         Set<Integer> attacks = getAttackSquares(board);
 
         // Convert the starting and ending positions to integer indices
-        int fromIndex = fromRow * 8 + fromCol;
-        int toIndex = toRow * 8 + toCol;
+        int fromIndex = Utils.toIndex(fromRow, fromCol);
+        int toIndex = Utils.toIndex(toRow, toCol);
 
         // Check if the ending position is one of the attack squares
         return attacks.contains(toIndex);
@@ -66,7 +67,7 @@ public class Knight extends Piece {
             if (destRow >= 0 && destRow < 8 && destCol >= 0 && destCol < 8) {
                 Piece piece = board.getPieceAt(destRow, destCol);
                 if (piece == null || piece.getColor() != getColor()) {
-                    attacks.add(destRow * 8 + destCol);
+                    attacks.add(Utils.toIndex(destRow,destCol));
                 }
             }
         }

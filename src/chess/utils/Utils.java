@@ -79,7 +79,7 @@ public class Utils
         }
         int rowNumber = 8 - row;
         return columnStr + rowNumber;
-    }
+    } 
 
     /**
      * Validates the user input for a move in the format of "e2 e4"
@@ -114,5 +114,28 @@ public class Utils
             return str;
         }
         return str.substring(0, 1).toUpperCase() + str.substring(1).toLowerCase();
+    }
+
+    /**
+     * Converts a row and column index in the range of [0, 0] to [7, 7]
+     * to an index in the range of 1 to 64.
+     * @param row the row index
+     * @param col the column index
+     * @return the index in the range of 1 to 64
+     */
+    public static int toIndex(int row, int col) {
+        return row * 8 + col + 1;
+    }
+
+    /**
+     * Converts an index in the range of 1 to 64 to a pair of row and column
+     * indices in the range of [0, 0] to [7, 7].
+     * @param index the index in the range of 1 to 64
+     * @return an array of two integers representing the row and column indices
+     */
+    public static int[] toRowCol(int index) {
+        int row = (index - 1) / 8;
+        int col = (index - 1) % 8;
+        return new int[] { row, col };
     }
 }
