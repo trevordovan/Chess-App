@@ -16,6 +16,7 @@ public class Utils
      * A map that contains the column letter as the key and the corresponding column index as the value.
      */
     private static final Map<String, Integer> COLUMN_MAP = new HashMap<>();
+    
     static {
         COLUMN_MAP.put("a", 0);
         COLUMN_MAP.put("b", 1);
@@ -123,7 +124,8 @@ public class Utils
      * @param col the column index
      * @return the index in the range of 1 to 64
      */
-    public static int toIndex(int row, int col) {
+    public static int toIndex(int row, int col)
+    {
         return row * 8 + col + 1;
     }
 
@@ -133,7 +135,8 @@ public class Utils
      * @param index the index in the range of 1 to 64
      * @return an array of two integers representing the row and column indices
      */
-    public static int[] toRowCol(int index) {
+    public static int[] toRowCol(int index)
+    {
         int row = (index - 1) / 8;
         int col = (index - 1) % 8;
         return new int[] { row, col };
@@ -145,7 +148,8 @@ public class Utils
      * @param col the column index to check
      * @return true if the indices are within bounds, false otherwise
      */
-    public static boolean isInBounds(int row, int col) {
+    public static boolean isInBounds(int row, int col)
+    {
         return row >= 0 && row < 8 && col >= 0 && col < 8;
     }
 }

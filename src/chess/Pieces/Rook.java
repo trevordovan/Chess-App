@@ -82,7 +82,7 @@ public class Rook extends Piece
         else {
             return false;
         }
-        
+
         return true;
     }
 

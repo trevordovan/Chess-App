@@ -120,6 +120,12 @@ public class Gameboard
      */
     public void setPieceAt(Piece piece, int row, int col)
     {
+        if (piece == null) {
+            board[row][col] = piece;
+            return;
+        }
+        piece.setRow(row);
+        piece.setCol(col);
         board[row][col] = piece;
     }
 
@@ -176,13 +182,13 @@ public class Gameboard
      * @param color the color to check for checkmate
      * @return true if the specified color is in checkmate, false otherwise
      */
-    public boolean isCheckmate(Color color)
+    public boolean isCheckmate(Color currentPlayer)
     {
-        if (!isCheck(color)) {
+        if (!isCheck(currentPlayer)) {
             return false;
         }
 
-        int[] kingPos = findKing(color);
+        int[] kingPos = findKing(currentPlayer);
         if (kingPos == null) {
             return false;
         }
@@ -195,7 +201,7 @@ public class Gameboard
                 if (row == kingPos[0] && col == kingPos[1]) {
                     continue;
                 }
-                if (Utils.isInBounds(row, col) && (board[row][col] == null || board[row][col].getColor() != color)) {
+                if (Utils.isInBounds(row, col) && (board[row][col] == null || board[row][col].getColor() != currentPlayer)) {
                     Piece tempFromPiece = getPieceAt(kingPos[0], kingPos[1]);
                     Piece tempToPiece = getPieceAt(row, col);
                     if (movePiece(kingPos[0], kingPos[1], row, col)) {
@@ -214,23 +220,25 @@ public class Gameboard
         }
 
         // Check if any piece can block or capture the attacking piece
-        List<Piece> pieces = getPieces(color);
+        List<Piece> pieces = getPieces(currentPlayer);
         for (Piece piece : pieces) {
+            Piece tempPiece = getPieceAt(piece.getRow(), piece.getCol());
+            int tempRow = tempPiece.getRow();
+            int tempCol = tempPiece.getCol();
             Set<Integer> attackSquares = piece.getAttackSquares(this);
             for (int attackSquareIndex : attackSquares) {
-                int[] rowCol = Utils.toRowCol(attackSquareIndex);
-                Piece tempFromPiece = getPieceAt(piece.getRow(), piece.getCol());
-                Piece tempToPiece = getPieceAt(rowCol[0], rowCol[1]);
-                if(movePiece(piece.getRow(), piece.getCol(), rowCol[0], rowCol[1])) {
-                    if (!isCheck(color)) {
+                int[] attackRowCol = Utils.toRowCol(attackSquareIndex);
+                Piece tempAttackSquarePiece = getPieceAt(attackRowCol[0], attackRowCol[1]);
+                if(movePiece(piece.getRow(), piece.getCol(), attackRowCol[0], attackRowCol[1])) {
+                    if (!isCheck(currentPlayer)) {
                         // undo move
-                        setPieceAt(tempFromPiece,kingPos[0], kingPos[1]);
-                        setPieceAt(tempToPiece, rowCol[0], rowCol[1]);
+                        setPieceAt(tempPiece, tempRow, tempCol);
+                        setPieceAt(tempAttackSquarePiece, attackRowCol[0], attackRowCol[1]);
                         return false;
                     }
                     // undo move
-                    setPieceAt(tempFromPiece,kingPos[0], kingPos[1]);
-                    setPieceAt(tempToPiece, rowCol[0], rowCol[1]);
+                    setPieceAt(tempPiece, tempRow, tempCol);
+                    setPieceAt(tempAttackSquarePiece, attackRowCol[0], attackRowCol[1]);
                 }
             }
         }

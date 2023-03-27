@@ -36,17 +36,17 @@ public class Game
         while (true) {
             board.printBoard();
 
-            // This could be printed when it's checked later, there is no need to run it a second time here
-            if (board.isCheck(board.getCurrentPlayer())) {
-                System.out.println("Check");
-            }
-
             if (board.isCheckmate(board.getCurrentPlayer())) {
                 System.out.println("Checkmate");
                 Color winner = board.getCurrentPlayer() == Color.WHITE ? Color.BLACK : Color.WHITE;
                 System.out.println(Utils.capitalize(winner.toString()) + " wins");
                 scanner.close();
                 return;
+            }
+
+            // This could be printed when it's checked later, there is no need to run it a second time here
+            if (board.isCheck(board.getCurrentPlayer())) {
+                System.out.println("Check");
             }
 
             System.out.print(Utils.capitalize(board.getCurrentPlayer().toString()) + "'s move: ");

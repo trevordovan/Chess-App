@@ -19,7 +19,8 @@ public class Knight extends Piece
      * @param row   the row of the piece on the board (0-7)
      * @param col   the column of the piece on the board (0-7)
      */
-    public Knight(Color color, int row, int col) {
+    public Knight(Color color, int row, int col)
+    {
         super(color, row, col, (color == Color.WHITE) ? "wN" : "bN");
     }
 
