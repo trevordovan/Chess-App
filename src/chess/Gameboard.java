@@ -1,10 +1,13 @@
 package chess;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
 
 import chess.enums.Color;
 import chess.pieces.*;
+import chess.utils.Utils;
 
 /**
  * The GameBoard class represents a chess game 
@@ -168,16 +171,111 @@ public class Gameboard
         return null;
     }
 
+    /**
+     * Determines whether the specified color is in checkmate on the game board.
+     * @param color the color to check for checkmate
+     * @return true if the specified color is in checkmate, false otherwise
+     */
+    public boolean isCheckmate(Color color)
+    {
+        if (!isCheck(color)) {
+            return false;
+        }
+
+        int[] kingPos = findKing(color);
+        if (kingPos == null) {
+            return false;
+        }
+
+        // CURRENTLY NOT WORKING, TEMP SETTING THE PEICES AND THEN REVERSING DOESN'T WORK
+
+        // Check if the king can move to a safe square
+        for (int row = kingPos[0] - 1; row <= kingPos[0] + 1; row++) {
+            for (int col = kingPos[1] - 1; col <= kingPos[1] + 1; col++) {
+                if (row == kingPos[0] && col == kingPos[1]) {
+                    continue;
+                }
+                if (Utils.isInBounds(row, col) && (board[row][col] == null || board[row][col].getColor() != color)) {
+                    Piece tempFromPiece = getPieceAt(kingPos[0], kingPos[1]);
+                    Piece tempToPiece = getPieceAt(row, col);
+                    if (movePiece(kingPos[0], kingPos[1], row, col)) {
+                        if (!isCheck(currentPlayer)) {
+                            // undo move
+                            setPieceAt(tempFromPiece,kingPos[0], kingPos[1]);
+                            setPieceAt(tempToPiece, row, col);
+                            return false;
+                        }
+                        // undo move
+                        setPieceAt(tempFromPiece, kingPos[0], kingPos[1]);
+                        setPieceAt(tempToPiece, row, col);
+                    }
+                }
+            }
+        }
+
+        // Check if any piece can block or capture the attacking piece
+        List<Piece> pieces = getPieces(color);
+        for (Piece piece : pieces) {
+            Set<Integer> attackSquares = piece.getAttackSquares(this);
+            for (int attackSquareIndex : attackSquares) {
+                int[] rowCol = Utils.toRowCol(attackSquareIndex);
+                Piece tempFromPiece = getPieceAt(piece.getRow(), piece.getCol());
+                Piece tempToPiece = getPieceAt(rowCol[0], rowCol[1]);
+                if(movePiece(piece.getRow(), piece.getCol(), rowCol[0], rowCol[1])) {
+                    if (!isCheck(color)) {
+                        // undo move
+                        setPieceAt(tempFromPiece,kingPos[0], kingPos[1]);
+                        setPieceAt(tempToPiece, rowCol[0], rowCol[1]);
+                        return false;
+                    }
+                    // undo move
+                    setPieceAt(tempFromPiece,kingPos[0], kingPos[1]);
+                    setPieceAt(tempToPiece, rowCol[0], rowCol[1]);
+                }
+            }
+        }
+
+        // Check if any piece can block or capture the attacking piece (brute force, should use getAttackSquares)
+        // List<Piece> pieces = getPieces(color);
+        // for (Piece piece : pieces) {
+        //     for (int row = 0; row < 8; row++) {
+        //         for (int col = 0; col < 8; col++) {
+        //             Piece tempFromPiece = getPieceAt(piece.getRow(), piece.getCol());
+        //             Piece tempToPiece = getPieceAt(row, col);
+        //             if (movePiece(piece.getRow(), piece.getCol(), row, col)) {
+        //                 if (!isCheck(color)) {
+        //                      // undo move
+        //                      setPieceAt(tempFromPiece,kingPos[0], kingPos[1]);
+        //                      setPieceAt(tempToPiece, row, col);
+        //                     return false;
+        //                 }
+        //             }
+        //         }
+        //     }
+        // }
+
+        // King cannot escape check and no other piece can block or capture the attacking piece
+        return true;
+    }
 
     /**
-     * Determines if the current player is in checkmate.
-     * @param currentPlayer the current player
-     * @return true if the current player is in checkmate, false otherwise
+     * Returns a list of all pieces for the given color on the board.
+     * @param color the color of the pieces to retrieve
+     * @return a list of all pieces for the given color
      */
-    public boolean isCheckmate(Color currentPlayer)
-    {
-        return false;
+    private List<Piece> getPieces(Color color) {
+        List<Piece> pieces = new ArrayList<>();
+        for (int row = 0; row < 8; row++) {
+            for (int col = 0; col < 8; col++) {
+                Piece piece = getPieceAt(row, col);
+                if (piece != null && piece.getColor() == color) {
+                    pieces.add(piece);
+                }
+            }
+        }
+        return pieces;
     }
+
 
     public Piece promotionDialog(Color color, int row, int col)
     {

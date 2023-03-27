@@ -59,7 +59,8 @@ public class King extends Piece
      * @return a set of integers representing the squares that this piece is attacking
      */
     @Override
-    public Set<Integer> getAttackSquares(Gameboard board) {
+    public Set<Integer> getAttackSquares(Gameboard board)
+    {
         Set<Integer> attacks = new HashSet<>();
         int[] kingPos = board.findKing(this.getColor());
         int row = kingPos[0];

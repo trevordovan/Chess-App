@@ -138,4 +138,14 @@ public class Utils
         int col = (index - 1) % 8;
         return new int[] { row, col };
     }
+
+    /**
+     * Determines whether the specified row and column indices are within the bounds of the game board.
+     * @param row the row index to check
+     * @param col the column index to check
+     * @return true if the indices are within bounds, false otherwise
+     */
+    public static boolean isInBounds(int row, int col) {
+        return row >= 0 && row < 8 && col >= 0 && col < 8;
+    }
 }

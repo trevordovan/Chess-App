@@ -40,13 +40,20 @@ public class Rook extends Piece
     @Override
     public boolean canMoveTo(int fromRow, int fromCol, int toRow, int toCol, Gameboard board)
     {
-        // Get the attack squares for the rook
+        Piece piece = board.getPieceAt(fromRow, fromCol);
+        if (piece == null) {
+            return false;
+        }
+
+        if (piece.getColor() != board.getCurrentPlayer()) {
+            return false;
+        }
+
         Set<Integer> attacks = getAttackSquares(board);
 
         // Convert the starting and ending positions to integer indices
         int toIndex = Utils.toIndex(toRow, toCol);
 
-        // Check if the ending position is one of the attack squares
         if (!attacks.contains(toIndex)) {
             return false;
         }
@@ -56,32 +63,26 @@ public class Rook extends Piece
             int start = Math.min(fromCol, toCol);
             int end = Math.max(fromCol, toCol);
             for (int c = start + 1; c < end; c++) {
-                Piece piece = board.getPieceAt(fromRow, c);
-                if (piece != null) {
+                Piece tempPiece = board.getPieceAt(fromRow, c);
+                if (tempPiece != null && tempPiece.getColor() == piece.getColor()) {
                     return false;
                 }
             }
-        } else if (fromCol == toCol) {
+        } 
+        else if (fromCol == toCol) {
             int start = Math.min(fromRow, toRow);
             int end = Math.max(fromRow, toRow);
             for (int r = start + 1; r < end; r++) {
-                Piece piece = board.getPieceAt(r, fromCol);
-                if (piece != null) {
+                Piece tempPiece = board.getPieceAt(r, fromCol);
+                if (tempPiece != null && tempPiece.getColor() == piece.getColor()) {
                     return false;
                 }
             }
-        } else {
-            // Invalid move for rook
+        } 
+        else {
             return false;
         }
-
-        // Check if the piece at the starting position is the same color as the current
-        // turn
-        if (board.getPieceAt(fromRow, fromCol).getColor() != board.getCurrentPlayer()) {
-            return false;
-        }
-
-        // Move is valid
+        
         return true;
     }
 

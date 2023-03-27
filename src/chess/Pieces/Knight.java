@@ -12,7 +12,6 @@ import java.util.*;
  */
 public class Knight extends Piece
 {
-
     /**
      * Constructs a new Knight Piece object with the given
      * color, row, and column.
@@ -100,7 +99,7 @@ public class Knight extends Piece
             int destRow = getRow() + move[0];
             int destCol = getCol() + move[1];
     
-            if (destRow >= 0 && destRow < 8 && destCol >= 0 && destCol < 8) {
+            if (Utils.isInBounds(destRow, destCol)) {
                 Piece piece = board.getPieceAt(destRow, destCol);
                 if (piece == null || piece.getColor() != getColor()) {
                     attacks.add(Utils.toIndex(destRow, destCol));
