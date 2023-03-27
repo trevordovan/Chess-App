@@ -34,6 +34,9 @@ public abstract class Piece
      */
     private String name;
 
+    /**
+     * The boolean representing whether or not the piece has moved.
+     */
     private Boolean hasMoved;
 
     /**
@@ -58,10 +61,6 @@ public abstract class Piece
         this.hasMoved = false;
     }
 
-    public void setAttackingColor(Color color) {
-        this.attackingColor = color;
-    }
-
     /**
      * Determines whether or not the piece can move from the specified 
      * starting position to the specified ending positionon the given
@@ -83,6 +82,16 @@ public abstract class Piece
      * @return a set of integers representing the squares that this piece is attacking
      */
     public abstract Set<Integer> getAttackSquares(Gameboard board);
+
+    /**
+     * Sets the attacking color of the game to the specified color.
+     * The attacking color is the color of the player who is currently attacking.
+     * @param color the color to set as the attacking color
+     */
+    public void setAttackingColor(Color color)
+    {
+        this.attackingColor = color;
+    }
 
     /**
      * Gets the color of the piece.
@@ -149,7 +158,12 @@ public abstract class Piece
         this.name = name;
     }
     
-    public void setMoved(boolean hasMoved) {
+    /**
+     * Sets the moved status of the piece.
+     * @param hasMoved true if the piece has been moved, false otherwise
+     */
+    public void setMoved(boolean hasMoved)
+    {
         this.hasMoved = hasMoved;
     }
 }

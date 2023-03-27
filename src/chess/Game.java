@@ -43,7 +43,7 @@ public class Game
 
             if (board.isCheckmate(board.getCurrentPlayer())) {
                 System.out.println("Checkmate");
-                Color winner = board.getCurrentPlayer() == Color.WHITE ? Color.BLACK : Color.WHITE;
+                Color winner = board.getCurrentPlayer().opposite();
                 System.out.println(Utils.capitalize(winner.toString()) + " wins");
                 scanner.close();
                 return;
@@ -67,7 +67,7 @@ public class Game
                 }
 
                 if (input.equals("resign")) {
-                    Color winner = board.getCurrentPlayer() == Color.WHITE ? Color.BLACK : Color.WHITE;
+                    Color winner = board.getCurrentPlayer().opposite();
                     System.out.println(Utils.capitalize(winner.toString()) + " wins");
                     scanner.close();
                     return;
@@ -109,8 +109,7 @@ public class Game
                     continue;
                 }
             }
-            Color currentPlayer = (board.getCurrentPlayer() == Color.WHITE) ? Color.BLACK : Color.WHITE;
-            board.setCurrentPlayer(currentPlayer);
+            board.setCurrentPlayer(board.getCurrentPlayer().opposite());
         }
     }
 }

@@ -22,12 +22,10 @@ public class Rook extends Piece {
     /**
      * Constructs a new Rook Piece object with the given
      * color, row, and column.
-     * 
      * @param color      the color of the piece (either Color.WHITE or Color.BLACK)
      * @param row        the row of the piece on the board (0-7)
      * @param col        the column of the piece on the board (0-7)
-     * @param enemyColor the color of the enemy pieces (either Color.WHITE or
-     *                   Color.BLACK)
+     * @param enemyColor the color of the enemy pieces (either Color.WHITE or Color.BLACK)
      */
     public Rook(Color color, int row, int col, Color enemyColor) {
         super(color, row, col, (color == Color.WHITE) ? "wR" : "bR");
@@ -35,87 +33,10 @@ public class Rook extends Piece {
         setAttackingColor(color.opposite());
     }
 
-    private boolean hasMoved = false;
-
-    public void setMoved(boolean moved) {
-        hasMoved = moved;
-    }
-
-    /**
-     * Returns a set of integers representing the squares that this rook is
-     * attacking on the game board.
-     * This method should be overridden by subclasses to implement piece-specific
-     * attack rules.
-     * 
-     * @param board          the game board on which the piece is attacking
-     * @param attackingColor
-     * @return a set of integers representing the squares that this piece is
-     *         attacking
-     */
-    @Override
-    public Set<Integer> getAttackSquares(Gameboard board) {
-        Set<Integer> attacks = new HashSet<>();
-        Color enemyColor = attackingColor;
-
-        // Check squares above the rook
-        for (int row = getRow() - 1; row >= 0; row--) {
-            Piece piece = board.getPieceAt(row, getCol());
-            if (piece == null) {
-                attacks.add(Utils.toIndex(row, getCol()));
-            } else {
-                if (piece.getColor() != attackingColor) {
-                    attacks.add(Utils.toIndex(row, getCol()));
-                }
-                break;
-            }
-        }
-
-        // Check squares below the rook
-        for (int row = getRow() + 1; row < 8; row++) {
-            Piece piece = board.getPieceAt(row, getCol());
-            if (piece == null) {
-                attacks.add(Utils.toIndex(row, getCol()));
-            } else {
-                if (piece.getColor() != attackingColor) {
-                    attacks.add(Utils.toIndex(row, getCol()));
-                }
-                break;
-            }
-        }
-
-        // Check squares to the right of the rook
-        for (int col = getCol() + 1; col < 8; col++) {
-            Piece piece = board.getPieceAt(getRow(), col);
-            if (piece == null) {
-                attacks.add(Utils.toIndex(getRow(), col));
-            } else {
-                if (piece.getColor() != attackingColor) {
-                    attacks.add(Utils.toIndex(getRow(), col));
-                }
-                break;
-            }
-        }
-
-        // Check squares to the left of the rook
-        for (int col = getCol() - 1; col >= 0; col--) {
-            Piece piece = board.getPieceAt(getRow(), col);
-            if (piece == null) {
-                attacks.add(Utils.toIndex(getRow(), col));
-            } else {
-                if (piece.getColor() != attackingColor) {
-                    attacks.add(Utils.toIndex(getRow(), col));
-                }
-                break;
-            }
-        }
-        return attacks;
-    }
-
     /**
      * Determines whether or not a rook can move from the specified
      * starting position to the specified ending positionon the given
      * game board.
-     * 
      * @param fromRow the starting row of the piece
      * @param fromCol the starting column of the piece
      * @param toRow   the ending row of the piece
@@ -181,110 +102,69 @@ public class Rook extends Piece {
         return true; // All conditions are satisfied
     }
 
-    // public boolean canMoveTo(int fromRow, int fromCol, int toRow, int toCol,
-    // Gameboard board)
-    // {
-    // Piece piece = board.getPieceAt(fromRow, fromCol);
-    // if (piece == null) {
-    // return false;
-    // }
+    /**
+     * Returns a set of integers representing the squares that this rook is
+     * attacking on the game board.
+     * This method should be overridden by subclasses to implement piece-specific
+     * attack rules.
+     * @param board the game board on which the piece is attacking
+     * @return a set of integers representing the squares that this piece is attacking
+     */
+    @Override
+    public Set<Integer> getAttackSquares(Gameboard board) {
+        Set<Integer> attacks = new HashSet<>();
 
-    // if (piece.getColor() != board.getCurrentPlayer()) {
-    // return false;
-    // }
+        // Check squares above the rook
+        for (int row = getRow() - 1; row >= 0; row--) {
+            Piece piece = board.getPieceAt(row, getCol());
+            if (piece == null) {
+                attacks.add(Utils.toIndex(row, getCol()));
+            } else {
+                if (piece.getColor() != attackingColor) {
+                    attacks.add(Utils.toIndex(row, getCol()));
+                }
+                break;
+            }
+        }
 
-    // Set<Integer> attacks = getAttackSquares(board);
+        // Check squares below the rook
+        for (int row = getRow() + 1; row < 8; row++) {
+            Piece piece = board.getPieceAt(row, getCol());
+            if (piece == null) {
+                attacks.add(Utils.toIndex(row, getCol()));
+            } else {
+                if (piece.getColor() != attackingColor) {
+                    attacks.add(Utils.toIndex(row, getCol()));
+                }
+                break;
+            }
+        }
 
-    // // Convert the starting and ending positions to integer indices
-    // int toIndex = Utils.toIndex(toRow, toCol);
+        // Check squares to the right of the rook
+        for (int col = getCol() + 1; col < 8; col++) {
+            Piece piece = board.getPieceAt(getRow(), col);
+            if (piece == null) {
+                attacks.add(Utils.toIndex(getRow(), col));
+            } else {
+                if (piece.getColor() != attackingColor) {
+                    attacks.add(Utils.toIndex(getRow(), col));
+                }
+                break;
+            }
+        }
 
-    // if (!attacks.contains(toIndex)) {
-    // return false;
-    // }
-
-    // // Check if there are any pieces blocking the rook's path
-    // if (fromRow == toRow) {
-    // int start = Math.min(fromCol, toCol);
-    // int end = Math.max(fromCol, toCol);
-    // for (int c = start + 1; c < end; c++) {
-    // Piece tempPiece = board.getPieceAt(fromRow, c);
-    // if (tempPiece != null && tempPiece.getColor() == piece.getColor()) {
-    // return false;
-    // }
-    // }
-    // }
-    // else if (fromCol == toCol) {
-    // int start = Math.min(fromRow, toRow);
-    // int end = Math.max(fromRow, toRow);
-    // for (int r = start + 1; r < end; r++) {
-    // Piece tempPiece = board.getPieceAt(r, fromCol);
-    // if (tempPiece != null && tempPiece.getColor() == piece.getColor()) {
-    // return false;
-    // }
-    // }
-    // }
-    // else {
-    // return false;
-    // }
-
-    // return true;
-    // }
-
-    // public Set<Integer> getAttackSquares(Gameboard board) {
-    // Set<Integer> attacks = new HashSet<>();
-
-    // // Check squares above the rook
-    // for (int row = getRow() - 1; row >= 0; row--) {
-    // Piece piece = board.getPieceAt(row, getCol());
-    // if (piece == null) {
-    // attacks.add(Utils.toIndex(row, getCol()));
-    // } else {
-    // if (piece.getColor() != getColor()) {
-    // attacks.add(Utils.toIndex(row, getCol()));
-    // }
-    // break;
-    // }
-    // }
-
-    // // Check squares below the rook
-    // for (int row = getRow() + 1; row < 8; row++) {
-    // Piece piece = board.getPieceAt(row, getCol());
-    // if (piece == null) {
-    // attacks.add(Utils.toIndex(row, getCol()));
-    // } else {
-    // if (piece.getColor() != getColor()) {
-    // attacks.add(Utils.toIndex(row, getCol()));
-    // }
-    // break;
-    // }
-    // }
-
-    // // Check squares to the right of the rook
-    // for (int col = getCol() + 1; col < 8; col++) {
-    // Piece piece = board.getPieceAt(getRow(), col);
-    // if (piece == null) {
-    // attacks.add(Utils.toIndex(getRow(), col));
-    // } else {
-    // if (piece.getColor() != getColor()) {
-    // attacks.add(Utils.toIndex(getRow(), col));
-    // }
-    // break;
-    // }
-    // }
-
-    // // Check squares to the left of the rook
-    // for (int col = getCol() - 1; col >= 0; col--) {
-    // Piece piece = board.getPieceAt(getRow(), col);
-    // if (piece == null) {
-    // attacks.add(Utils.toIndex(getRow(), col));
-    // } else {
-    // if (piece.getColor() != getColor()) {
-    // attacks.add(Utils.toIndex(getRow(), col));
-    // }
-    // break;
-    // }
-    // }
-    // return attacks;
-    // }
-
+        // Check squares to the left of the rook
+        for (int col = getCol() - 1; col >= 0; col--) {
+            Piece piece = board.getPieceAt(getRow(), col);
+            if (piece == null) {
+                attacks.add(Utils.toIndex(getRow(), col));
+            } else {
+                if (piece.getColor() != attackingColor) {
+                    attacks.add(Utils.toIndex(getRow(), col));
+                }
+                break;
+            }
+        }
+        return attacks;
+    }
 }
