@@ -1,6 +1,6 @@
 package chess.pieces;
 
-import chess.GameBoard;
+import chess.Gameboard;
 import chess.Piece;
 import chess.enums.Color;
 import chess.utils.Utils;
@@ -10,7 +10,8 @@ import java.util.*;
 /**
  * Represents a Knight chess piece on the game board.
  */
-public class Knight extends Piece {
+public class Knight extends Piece
+{
 
     /**
      * Constructs a new Knight Piece object with the given
@@ -35,11 +36,11 @@ public class Knight extends Piece {
      * @return true if the move is valid, false otherwise
      */
     @Override
-    public boolean canMoveTo(int fromRow, int fromCol, int toRow, int toCol, GameBoard board) {
+    public boolean canMoveTo(int fromRow, int fromCol, int toRow, int toCol, Gameboard board)
+    {
         Set<Integer> attacks = getAttackSquares(board);
 
         // Convert the starting and ending positions to integer indices
-        int fromIndex = Utils.toIndex(fromRow, fromCol);
         int toIndex = Utils.toIndex(toRow, toCol);
     
         // Check if the ending position is one of the attack squares
@@ -67,7 +68,6 @@ public class Knight extends Piece {
                 }
             }
         }
-    
         return false;
     }
 
@@ -78,7 +78,8 @@ public class Knight extends Piece {
      * @return a set of integers representing the squares that this piece is attacking
      */
     @Override
-    public Set<Integer> getAttackSquares(GameBoard board) {
+    public Set<Integer> getAttackSquares(Gameboard board)
+    {
         Set<Integer> attacks = new HashSet<>();
 
         // Generate all possible moves for the knight
@@ -109,5 +110,4 @@ public class Knight extends Piece {
     
         return attacks;
     }
-
 }

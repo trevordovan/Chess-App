@@ -57,7 +57,7 @@ public abstract class Piece
      * @param board the game board on which the move is being made
      * @return true if the move is valid, false otherwise
      */
-    public abstract boolean canMoveTo(int fromRow, int fromCol, int toRow, int toCol, GameBoard board);
+    public abstract boolean canMoveTo(int fromRow, int fromCol, int toRow, int toCol, Gameboard board);
 
     /**
      * Returns a set of integers representing the squares that this piece is attacking on the game board.
@@ -65,7 +65,7 @@ public abstract class Piece
      * @param board the game board on which the piece is attacking
      * @return a set of integers representing the squares that this piece is attacking
      */
-    public abstract Set<Integer> getAttackSquares(GameBoard board);
+    public abstract Set<Integer> getAttackSquares(Gameboard board);
 
     /**
      * Gets the color of the piece.
@@ -82,7 +82,6 @@ public abstract class Piece
     public int getRow() {
         return row;
     }
-
 
     /**
      * Gets the column of the piece on the game board.

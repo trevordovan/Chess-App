@@ -1,10 +1,12 @@
 package chess.pieces;
 
+import java.util.HashSet;
 import java.util.Set;
 
-import chess.GameBoard;
+import chess.Gameboard;
 import chess.Piece;
 import chess.enums.Color;
+import chess.utils.Utils;
 
 /**
  * Represents a pawn chess piece on the game board.
@@ -35,7 +37,7 @@ public class Pawn extends Piece
      * @return true if the move is valid, false otherwise
      */
     @Override
-    public boolean canMoveTo(int fromRow, int fromCol, int toRow, int toCol, GameBoard board)
+    public boolean canMoveTo(int fromRow, int fromCol, int toRow, int toCol, Gameboard board)
     {
         // -1 for white, 1 for black
         int forwardDirection = this.getColor() == Color.WHITE ? -1 : 1; 
@@ -51,6 +53,9 @@ public class Pawn extends Piece
         // Check that the piece is not moving sideways
         if (fromCol != toCol) {
             // Check if the pawn is capturing a piece diagonally
+            if (Math.abs(fromRow-toRow) != 1 || Math.abs(fromCol-toCol) != 1) {
+                return false;
+            }
             Piece capturedPiece = board.getPieceAt(toRow, toCol);
             if (capturedPiece != null && capturedPiece.getColor() != this.getColor()) {
                 // Capture is valid
@@ -80,14 +85,39 @@ public class Pawn extends Piece
     }
 
     /**
-     * Returns a set of integers representing the squares that this piece is attacking on the game board.
-     * This method should be overridden by subclasses to implement piece-specific attack rules.
-     * @param board the game board on which the piece is attacking
-     * @return a set of integers representing the squares that this piece is attacking
+     * Returns a set of integers representing the squares that this pawn is attacking on the game board.
+     * A pawn can attack diagonally in the forward direction.
+     * @param board the game board on which the pawn is attacking
+     * @return a set of integers representing the squares that this pawn is attacking
      */
     @Override
-    public Set<Integer> getAttackSquares(GameBoard board) {
-        return null;
+    public Set<Integer> getAttackSquares(Gameboard board)
+    {
+        Set<Integer> attacks = new HashSet<>();
+
+        int forwardDir = (getColor() == Color.WHITE) ? -1 : 1;
+        int row = this.getRow();
+        int col = this.getCol();
+
+        // Check attacks to the left and right diagonally
+        for (int colOffset : new int[] {-1, 1}) {
+            int attackRow = row + forwardDir;
+            int attackCol = col + colOffset;
+
+            if (attackRow >= 0 && attackRow < 8 && attackCol >= 0 && attackCol < 8) {
+                attacks.add(Utils.toIndex(attackRow, attackCol));
+            }
+        }
+        return attacks;
     }
-    
 }
+
+// a2 a3
+// a7 a5
+// e2 e4
+// e7 e5
+// e1 e2
+// h7 h5
+// e2 d3 
+// h5 h4
+// d3 d4

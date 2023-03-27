@@ -1,6 +1,7 @@
 package chess;
 
 import java.util.Scanner;
+import java.util.Set;
 
 import chess.enums.Color;
 import chess.pieces.*;
@@ -9,7 +10,7 @@ import chess.pieces.*;
  * The GameBoard class represents a chess game 
  * board with pieces in their starting positions.
  */
-public class GameBoard
+public class Gameboard
 { 
     /**
      * The array of pieces on the game board.
@@ -25,7 +26,7 @@ public class GameBoard
      * Initializes the chess game board by placing 
      * all the pieces in their starting positions.
      */
-    public GameBoard()
+    public Gameboard()
     {
         board = new Piece[8][8];
        
@@ -76,7 +77,7 @@ public class GameBoard
         if (selectedPiece == null) {
             return false;
         }
-        
+
         if (selectedPiece.getColor() != currentPlayer) {
             return false;
         }
@@ -84,6 +85,8 @@ public class GameBoard
         if (selectedPiece.canMoveTo(fromRow, fromCol, toRow, toCol, this)) {
             setPieceAt(null, fromRow, fromCol);
             setPieceAt(selectedPiece, toRow, toCol);
+            selectedPiece.setRow(toRow);
+            selectedPiece.setCol(toCol);
 
             // Check for promotion of a pawn
             if (selectedPiece instanceof Pawn && (toRow == 0 || toRow == 7)) {
@@ -118,15 +121,54 @@ public class GameBoard
     }
 
     /**
-     * Determines if the current player is in check.
-     * @param currentPlayer the current player
-     * @return true if the current player is in checkmate, false otherwise
+     * Determines whether the specified color is in check on the game board.
+     * @param color the color to check for check
+     * @return true if the specified color is in check, false otherwise
      */
-    public boolean isCheck(Color currentPlayer)
-    {
+    public boolean isCheck(Color color) {
+        // Find the position of the king of the specified color
+        int[] kingPos = findKing(color);
+        if (kingPos == null) {
+            // King not found, cannot be in check
+            return false;
+        }
+
+        // Check if any opposing pieces can attack the king
+        for (int row = 0; row < 8; row++) {
+            for (int col = 0; col < 8; col++) {
+                Piece piece = board[row][col];
+                if (piece != null && piece.getColor() != color) {
+                    // Check if the piece can attack the king
+                    if (piece.canMoveTo(row, col, kingPos[0], kingPos[1], this)) {
+                        // King is in check
+                        return true;
+                    }
+                }
+            }
+        }
+
+        // King is not in check
         return false;
     }
-    
+
+    /**
+     * Finds the position of the king of the specified color on the game board.
+     * @param color the color of the king to find
+     * @return the position of the king of the specified color, or null if not found
+     */
+    public int[] findKing(Color color) {
+        for (int row = 0; row < 8; row++) {
+            for (int col = 0; col < 8; col++) {
+                Piece piece = getPieceAt(row, col);
+                if (piece != null && piece instanceof King && piece.getColor() == color) {
+                    return new int[] { row, col };
+                }
+            }
+        }
+        return null;
+    }
+
+
     /**
      * Determines if the current player is in checkmate.
      * @param currentPlayer the current player

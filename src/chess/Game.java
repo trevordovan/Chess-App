@@ -13,19 +13,14 @@ public class Game
     /**
      * The gameboard.
      */
-    private GameBoard board;
-
-    /**
-     * Boolean representing whether a player is currently in check or not.
-     */
-    private boolean isInCheck;
+    private Gameboard board;
 
     /**
      * Creates a new game of chess.
      */
     public Game()
     {
-        board = new GameBoard();
+        board = new Gameboard();
     }
 
     /**
@@ -36,26 +31,25 @@ public class Game
      */
     public void play() {
         Scanner scanner = new Scanner(System.in);
-        Color currentPlayer = Color.WHITE;
         board.setCurrentPlayer(Color.WHITE);
     
         while (true) {
             board.printBoard();
 
-            if (board.isCheck(currentPlayer)) {
+            // This could be printed when it's checked later, there is no need to run it a second time here
+            if (board.isCheck(board.getCurrentPlayer())) {
                 System.out.println("Check");
-                isInCheck = true;
             }
 
-            if (board.isCheckmate(currentPlayer)) {
+            if (board.isCheckmate(board.getCurrentPlayer())) {
                 System.out.println("Checkmate");
-                Color winner = currentPlayer == Color.WHITE ? Color.BLACK : Color.WHITE;
+                Color winner = board.getCurrentPlayer() == Color.WHITE ? Color.BLACK : Color.WHITE;
                 System.out.println(Utils.capitalize(winner.toString()) + " wins");
                 scanner.close();
                 return;
             }
 
-            System.out.print(Utils.capitalize(currentPlayer.toString()) + "'s move: ");
+            System.out.print(Utils.capitalize(board.getCurrentPlayer().toString()) + "'s move: ");
 
             String input;
             int[] fromRowCol;
@@ -68,7 +62,7 @@ public class Game
                 }
 
                 if (input.equals("resign")) {
-                    Color winner = currentPlayer == Color.WHITE ? Color.BLACK : Color.WHITE;
+                    Color winner = board.getCurrentPlayer() == Color.WHITE ? Color.BLACK : Color.WHITE;
                     System.out.println(Utils.capitalize(winner.toString()) + " wins");
                     scanner.close();
                     return;
@@ -92,11 +86,17 @@ public class Game
                 fromRowCol = Utils.convertFileRankToRowCol(input.substring(0, 2));
                 toRowCol = Utils.convertFileRankToRowCol(input.substring(3, 5));
                 
-                if (isInCheck) {
-                    
-                }
+                Piece tempFromPiece = board.getPieceAt(fromRowCol[0], fromRowCol[1]);
+                Piece tempToPiece = board.getPieceAt(toRowCol[0], toRowCol[1]);
 
                 if (board.movePiece(fromRowCol[0], fromRowCol[1], toRowCol[0], toRowCol[1])) {
+                    if (board.isCheck(board.getCurrentPlayer())) {
+                        // undo move
+                        board.setPieceAt(tempFromPiece, fromRowCol[0], fromRowCol[1]);
+                        board.setPieceAt(tempToPiece, toRowCol[0], toRowCol[1]);
+                        System.out.println("Illegal move, try again");
+                        continue;
+                    }
                     break;
                 }
                 else {
@@ -104,9 +104,8 @@ public class Game
                     continue;
                 }
             }
-            currentPlayer = (currentPlayer == Color.WHITE) ? Color.BLACK : Color.WHITE;
+            Color currentPlayer = (board.getCurrentPlayer() == Color.WHITE) ? Color.BLACK : Color.WHITE;
             board.setCurrentPlayer(currentPlayer);
-            System.out.println();
         }
     }
 }

@@ -2,7 +2,7 @@ package chess.pieces;
 
 import java.util.*;
 
-import chess.GameBoard;
+import chess.Gameboard;
 import chess.Piece;
 import chess.enums.Color;
 
@@ -35,6 +35,7 @@ public class Bishop extends Piece {
      * @return true if the move is valid, false otherwise
      */
     @Override
+<<<<<<< HEAD
     public boolean canMoveTo(int fromRow, int fromCol, int toRow, int toCol, GameBoard board) {
         // Check if the move is diagonal
         if (Math.abs(fromRow - toRow) != Math.abs(fromCol - toCol)) {
@@ -57,6 +58,11 @@ public class Bishop extends Piece {
         // Check if the destination square is empty or contains an enemy piece
         Piece destPiece = board.getPieceAt(toRow, toCol);
         return destPiece == null || destPiece.getColor() != getColor();
+=======
+    public boolean canMoveTo(int fromRow, int fromCol, int toRow, int toCol, Gameboard board)
+    {
+        return false;
+>>>>>>> 11a9ae3012003a38e853dc01b4cf892f596aee3b
     }
 
     /**
@@ -70,6 +76,7 @@ public class Bishop extends Piece {
      *         attacking
      */
     @Override
+<<<<<<< HEAD
     public Set<Integer> getAttackSquares(GameBoard board) {
         Set<Integer> attackSquares = new HashSet<>();
         int[] rowDirs = { -1, -1, 1, 1 };
@@ -92,5 +99,9 @@ public class Bishop extends Piece {
             }
         }
         return attackSquares;
+=======
+    public Set<Integer> getAttackSquares(Gameboard board) {
+       return null;
+>>>>>>> 11a9ae3012003a38e853dc01b4cf892f596aee3b
     }
 }

@@ -2,7 +2,7 @@ package chess.pieces;
 
 import java.util.Set;
 
-import chess.GameBoard;
+import chess.Gameboard;
 import chess.Piece;
 import chess.enums.Color;
 
@@ -35,7 +35,7 @@ public class Queen extends Piece
      * @return true if the move is valid, false otherwise
      */
     @Override
-    public boolean canMoveTo(int fromRow, int fromCol, int toRow, int toCol, GameBoard board)
+    public boolean canMoveTo(int fromRow, int fromCol, int toRow, int toCol, Gameboard board)
     {
         return false;
     }
@@ -47,7 +47,8 @@ public class Queen extends Piece
      * @return a set of integers representing the squares that this piece is attacking
      */
     @Override
-    public Set<Integer> getAttackSquares(GameBoard board) {
+    public Set<Integer> getAttackSquares(Gameboard board)
+    {
         return null;
     }
 }
