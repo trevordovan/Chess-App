@@ -32,7 +32,10 @@ public class Gameboard {
      */
     private Color currentPlayer;
 
-    private boolean[][] hasMoved; // matrix to track whether a piece has moved or not
+    /**
+     * The boolean matrix to track whether a piece has moved or not
+     */
+    private boolean[][] hasMoved;
 
     
 
@@ -77,14 +80,6 @@ public class Gameboard {
                 board[i][j] = null;
             }
         }
-    }
-
-    public boolean hasMoved(int row, int col) {
-        return hasMoved[row][col];
-    }
-
-    public void setMoved(int row, int col) {
-        hasMoved[row][col] = true;
     }
 
     /**
@@ -314,6 +309,27 @@ public class Gameboard {
     }
 
     /**
+     * Checks if a piece at the specified row and column has been moved before.
+     * @param row the row index of the piece
+     * @param col the column index of the piece
+     * @return true if the piece has been moved before, false otherwise
+     */
+    public boolean hasMoved(int row, int col)
+    {
+        return hasMoved[row][col];
+    }
+
+    /**
+     * Sets the hasMoved flag for the piece at the specified row and column to true.
+     * @param row the row index of the piece
+     * @param col the column index of the piece
+     */
+    public void setMoved(int row, int col)
+    {
+        hasMoved[row][col] = true;
+    }
+
+    /**
      * Get the Piece at a specified row and column index.
      * 
      * @param row row index
@@ -378,6 +394,12 @@ public class Gameboard {
         currentPlayer = color;
     }
 
+    /**
+     * Returns a set of all squares on the board that are currently being attacked by the enemy pieces
+     * of the specified player color.
+     * @param playerColor the color of the player whose enemy attacks are being checked
+     * @return a set of integers representing the squares being attacked by the enemy pieces
+     */
     public Set<Integer> getEnemyAttackSquares(Color playerColor) {
         Set<Integer> enemyAttacks = new HashSet<>();
         Color enemyColor = playerColor.opposite();
@@ -399,7 +421,6 @@ public class Gameboard {
     /**
      * Returns true if the given square on the board is being attacked by a piece of
      * the given color.
-     * 
      * @param row   the row of the square to check
      * @param col   the column of the square to check
      * @param color the color of the attacking pieces to look for
