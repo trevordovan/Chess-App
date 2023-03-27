@@ -90,7 +90,7 @@ public class Rook extends Piece
     }
 
     /**
-     * Returns a set of integers representing the squares that this piece is
+     * Returns a set of integers representing the squares that this rook is
      * attacking on the game board.
      * This method should be overridden by subclasses to implement piece-specific
      * attack rules.

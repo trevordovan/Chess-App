@@ -77,7 +77,7 @@ public class Knight extends Piece
     }
 
     /**
-     * Returns a set of integers representing the squares that this piece is attacking on the game board.
+     * Returns a set of integers representing the squares that this knight is attacking on the game board.
      * This method should be overridden by subclasses to implement piece-specific attack rules.
      * @param board the game board on which the piece is attacking
      * @return a set of integers representing the squares that this piece is attacking
