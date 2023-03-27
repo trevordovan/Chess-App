@@ -14,6 +14,7 @@ import java.util.HashSet;
 import chess.enums.Color;
 import chess.pieces.*;
 import chess.utils.Utils;
+import chess.Move;
 
 /**
  * The GameBoard class represents a chess game
@@ -24,6 +25,7 @@ public class Gameboard {
      * The array of pieces on the game board.
      */
     private Piece[][] board;
+    private List<Move> moves; // define the moves field as a list of Move objects
 
     /**
      * The color of the current player
@@ -32,6 +34,8 @@ public class Gameboard {
 
     private boolean[][] hasMoved; // matrix to track whether a piece has moved or not
 
+    
+
     /**
      * Initializes the chess game board by placing
      * all the pieces in their starting positions.
@@ -39,6 +43,8 @@ public class Gameboard {
     public Gameboard() {
         board = new Piece[8][8];
         hasMoved = new boolean[8][8];
+        this.moves = new ArrayList<Move>();
+
 
         // Black Pieces
         board[0][0] = new Rook(Color.BLACK, 0, 0, Color.WHITE);
@@ -410,5 +416,42 @@ public class Gameboard {
         }
         return false;
     }    
+
+    public Move getLastMove() {
+        if (this.moves.size() > 0) {
+            return this.moves.get(this.moves.size() - 1);
+        }
+        return null;
+    }
+    
+    public boolean hasJustDoubleMoved(Pawn pawn) {
+        Move lastMove = this.getLastMove();
+        if (lastMove != null && lastMove.getPiece() != null && lastMove.getPiece() == pawn && Math.abs(lastMove.getFromRow() - lastMove.getToRow()) == 2) {
+            return true;
+        }
+        return false;
+    }
+    
+    public Piece getLastMovedPiece() {
+        if (this.moves.isEmpty()) {
+            return null;
+        }
+        Move lastMove = this.moves.get(this.moves.size() - 1);
+        return lastMove.getPiece();
+    }
+    
+    public Pawn getJustDoubleMoved() {
+        if (moves.size() < 2) {
+            return null;
+        }
+        Move lastMove = moves.get(moves.size() - 1);
+        Move prevMove = moves.get(moves.size() - 2);
+        if (lastMove.getPiece() instanceof Pawn && Math.abs(lastMove.getToRow() - prevMove.getToRow()) == 2) {
+            return (Pawn) lastMove.getPiece();
+        }
+        return null;
+    }
+    
+    
 
 }
