@@ -53,7 +53,7 @@ public class Pawn extends Piece
         // Check that the piece is not moving sideways
         if (fromCol != toCol) {
             // Check if the pawn is capturing a piece diagonally
-            if (Math.abs(fromRow-toRow) != 1) {
+            if (Math.abs(fromRow-toRow) != 1 || Math.abs(fromCol-toCol) != 1) {
                 return false;
             }
             Piece capturedPiece = board.getPieceAt(toRow, toCol);
@@ -111,3 +111,13 @@ public class Pawn extends Piece
         return attacks;
     }
 }
+
+// a2 a3
+// a7 a5
+// e2 e4
+// e7 e5
+// e1 e2
+// h7 h5
+// e2 d3 
+// h5 h4
+// d3 d4
