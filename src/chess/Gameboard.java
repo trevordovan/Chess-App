@@ -73,6 +73,7 @@ public class Gameboard
      * @param fromCol the column index of the source square
      * @param toRow   the row index of the destination square
      * @param toCol   the column index of the destination square
+     * @return true if the move is successfully executed, false otherwise
      */
     public boolean movePiece(int fromRow, int fromCol, int toRow, int toCol)
     {
@@ -130,13 +131,31 @@ public class Gameboard
     }
 
     /**
+     * Returns a list of all pieces for the given color on the board.
+     * @param color the color of the pieces to retrieve
+     * @return a list of all pieces for the given color
+     */
+    private List<Piece> getPieces(Color color) {
+        List<Piece> pieces = new ArrayList<>();
+        for (int row = 0; row < 8; row++) {
+            for (int col = 0; col < 8; col++) {
+                Piece piece = getPieceAt(row, col);
+                if (piece != null && piece.getColor() == color) {
+                    pieces.add(piece);
+                }
+            }
+        }
+        return pieces;
+    }
+
+    /**
      * Determines whether the specified color is in check on the game board.
-     * @param color the color to check for check
+     * @param currentPlayer the color to check for check
      * @return true if the specified color is in check, false otherwise
      */
-    public boolean isCheck(Color color) {
+    public boolean isCheck(Color currentPlayer) {
         // Find the position of the king of the specified color
-        int[] kingPos = findKing(color);
+        int[] kingPos = findKing(currentPlayer);
         if (kingPos == null) {
             // King not found, cannot be in check
             return false;
@@ -146,7 +165,7 @@ public class Gameboard
         for (int row = 0; row < 8; row++) {
             for (int col = 0; col < 8; col++) {
                 Piece piece = board[row][col];
-                if (piece != null && piece.getColor() != color) {
+                if (piece != null && piece.getColor() != currentPlayer) {
                     // Check if the piece can attack the king
                     if (piece.canMoveTo(row, col, kingPos[0], kingPos[1], this)) {
                         // King is in check
@@ -161,25 +180,8 @@ public class Gameboard
     }
 
     /**
-     * Finds the position of the king of the specified color on the game board.
-     * @param color the color of the king to find
-     * @return the position of the king of the specified color, or null if not found
-     */
-    public int[] findKing(Color color) {
-        for (int row = 0; row < 8; row++) {
-            for (int col = 0; col < 8; col++) {
-                Piece piece = getPieceAt(row, col);
-                if (piece != null && piece instanceof King && piece.getColor() == color) {
-                    return new int[] { row, col };
-                }
-            }
-        }
-        return null;
-    }
-
-    /**
      * Determines whether the specified color is in checkmate on the game board.
-     * @param color the color to check for checkmate
+     * @param currentPlayer the color to check for checkmate
      * @return true if the specified color is in checkmate, false otherwise
      */
     public boolean isCheckmate(Color currentPlayer)
@@ -192,8 +194,6 @@ public class Gameboard
         if (kingPos == null) {
             return false;
         }
-
-        // CURRENTLY NOT WORKING, TEMP SETTING THE PEICES AND THEN REVERSING DOESN'T WORK
 
         // Check if the king can move to a safe square
         for (int row = kingPos[0] - 1; row <= kingPos[0] + 1; row++) {
@@ -243,48 +243,17 @@ public class Gameboard
             }
         }
 
-        // Check if any piece can block or capture the attacking piece (brute force, should use getAttackSquares)
-        // List<Piece> pieces = getPieces(color);
-        // for (Piece piece : pieces) {
-        //     for (int row = 0; row < 8; row++) {
-        //         for (int col = 0; col < 8; col++) {
-        //             Piece tempFromPiece = getPieceAt(piece.getRow(), piece.getCol());
-        //             Piece tempToPiece = getPieceAt(row, col);
-        //             if (movePiece(piece.getRow(), piece.getCol(), row, col)) {
-        //                 if (!isCheck(color)) {
-        //                      // undo move
-        //                      setPieceAt(tempFromPiece,kingPos[0], kingPos[1]);
-        //                      setPieceAt(tempToPiece, row, col);
-        //                     return false;
-        //                 }
-        //             }
-        //         }
-        //     }
-        // }
-
         // King cannot escape check and no other piece can block or capture the attacking piece
         return true;
     }
 
     /**
-     * Returns a list of all pieces for the given color on the board.
-     * @param color the color of the pieces to retrieve
-     * @return a list of all pieces for the given color
+     * Prompts the user to choose a piece to promote a pawn to and returns the promoted piece.
+     * @param color the color of the pawn being promoted
+     * @param row the row of the pawn being promoted
+     * @param col the column of the pawn being promoted
+     * @return the piece that the pawn is being promoted to
      */
-    private List<Piece> getPieces(Color color) {
-        List<Piece> pieces = new ArrayList<>();
-        for (int row = 0; row < 8; row++) {
-            for (int col = 0; col < 8; col++) {
-                Piece piece = getPieceAt(row, col);
-                if (piece != null && piece.getColor() == color) {
-                    pieces.add(piece);
-                }
-            }
-        }
-        return pieces;
-    }
-
-
     public Piece promotionDialog(Color color, int row, int col)
     {
         Piece promotedPiece = null;
@@ -348,11 +317,37 @@ public class Gameboard
         System.out.println("\n");
     }
 
+    /**
+     * Finds the position of the king of the specified color on the game board.
+     * @param color the color of the king to find
+     * @return the position of the king of the specified color, or null if not found
+     */
+    public int[] findKing(Color color)
+    {
+        for (int row = 0; row < 8; row++) {
+            for (int col = 0; col < 8; col++) {
+                Piece piece = getPieceAt(row, col);
+                if (piece != null && piece instanceof King && piece.getColor() == color) {
+                    return new int[] { row, col };
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Returns the current player of the game.
+     * @return the color of the current player
+     */
     public Color getCurrentPlayer()
     {
         return currentPlayer;
     }
 
+    /**
+     * Sets the current player of the game to the specified color.
+     * @param color the color to set as the current player
+     */
     public void setCurrentPlayer(Color color)
     {
         currentPlayer = color;

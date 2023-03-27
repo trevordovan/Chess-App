@@ -13,7 +13,6 @@ public class Bishop extends Piece {
     /**
      * Constructs a new Bishop Piece object with the given
      * color, row, and column.
-     * 
      * @param color the color of the piece (either Color.WHITE or Color.BLACK)
      * @param row   the row of the piece on the board (0-7)
      * @param col   the column of the piece on the board (0-7)
@@ -26,7 +25,6 @@ public class Bishop extends Piece {
      * Determines whether or not a bishop can move from the specified
      * starting position to the specified ending positionon the given
      * game board.
-     * 
      * @param fromRow the starting row of the piece
      * @param fromCol the starting column of the piece
      * @param toRow   the ending row of the piece
@@ -35,7 +33,8 @@ public class Bishop extends Piece {
      * @return true if the move is valid, false otherwise
      */
     @Override
-    public boolean canMoveTo(int fromRow, int fromCol, int toRow, int toCol, Gameboard board) {
+    public boolean canMoveTo(int fromRow, int fromCol, int toRow, int toCol, Gameboard board)
+    {
         // Check if the move is diagonal
         if (Math.abs(fromRow - toRow) != Math.abs(fromCol - toCol)) {
             return false;
@@ -70,7 +69,8 @@ public class Bishop extends Piece {
      *         attacking
      */
     @Override
-    public Set<Integer> getAttackSquares(Gameboard board) {
+    public Set<Integer> getAttackSquares(Gameboard board)
+    {
         Set<Integer> attackSquares = new HashSet<>();
         int[] rowDirs = { -1, -1, 1, 1 };
         int[] colDirs = { -1, 1, -1, 1 };

@@ -71,7 +71,8 @@ public abstract class Piece
      * Gets the color of the piece.
      * @return the color of the piece
      */
-    public Color getColor() {
+    public Color getColor()
+    {
         return color;
     }
 
@@ -79,7 +80,8 @@ public abstract class Piece
      * Gets the row of the piece on the game board.
      * @return the row of the piece
      */
-    public int getRow() {
+    public int getRow()
+    {
         return row;
     }
 
@@ -87,7 +89,8 @@ public abstract class Piece
      * Gets the column of the piece on the game board.
      * @return the column of the piece
      */
-    public int getCol() {
+    public int getCol()
+    {
         return col;
     }
 
@@ -95,7 +98,8 @@ public abstract class Piece
      * Sets the row of the piece on the game board.
      * @param row the new row of the piece
      */
-    public void setRow(int row) {
+    public void setRow(int row)
+    {
         this.row = row;
     }
 
@@ -103,7 +107,8 @@ public abstract class Piece
      * Sets the column of the piece on the game board.
      * @param col the new column of the piece
      */
-    public void setCol(int col) {
+    public void setCol(int col)
+    {
         this.col = col;
     }
 
@@ -112,7 +117,8 @@ public abstract class Piece
      * that includes its color and type (e.g., "wKnight").
      * @return the name of the piece
      */
-    public String getName() {
+    public String getName()
+    {
         return name;
     }
 
@@ -121,7 +127,8 @@ public abstract class Piece
      * that includes its color and type (e.g., "wKnight").
      * @param name the new name of the piece
      */
-    public void setName(String name) {
+    public void setName(String name)
+    {
         this.name = name;
     }
 }

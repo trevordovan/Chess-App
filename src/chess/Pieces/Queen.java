@@ -13,7 +13,6 @@ public class Queen extends Piece {
     /**
      * Constructs a new Queen Piece object with the given
      * color, row, and column.
-     * 
      * @param color the color of the piece (either Color.WHITE or Color.BLACK)
      * @param row   the row of the piece on the board (0-7)
      * @param col   the column of the piece on the board (0-7)
@@ -27,7 +26,6 @@ public class Queen extends Piece {
      * Determines whether or not a queen can move from the specified
      * starting position to the specified ending positionon the given
      * game board.
-     * 
      * @param fromRow the starting row of the piece
      * @param fromCol the starting column of the piece
      * @param toRow   the ending row of the piece
@@ -65,7 +63,6 @@ public class Queen extends Piece {
      * attacking on the game board.
      * This method should be overridden by subclasses to implement piece-specific
      * attack rules.
-     * 
      * @param board the game board on which the piece is attacking
      * @return a set of integers representing the squares that this piece is
      *         attacking

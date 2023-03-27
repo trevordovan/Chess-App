@@ -111,13 +111,3 @@ public class Pawn extends Piece
         return attacks;
     }
 }
-
-// a2 a3
-// a7 a5
-// e2 e4
-// e7 e5
-// e1 e2
-// h7 h5
-// e2 d3 
-// h5 h4
-// d3 d4
