@@ -31,26 +31,25 @@ public class Game
      */
     public void play() {
         Scanner scanner = new Scanner(System.in);
-        Color currentPlayer = Color.WHITE;
         board.setCurrentPlayer(Color.WHITE);
     
         while (true) {
             board.printBoard();
 
             // This could be printed when it's checked later, there is no need to run it a second time here
-            if (board.isCheck(currentPlayer)) {
+            if (board.isCheck(board.getCurrentPlayer())) {
                 System.out.println("Check");
             }
 
-            if (board.isCheckmate(currentPlayer)) {
+            if (board.isCheckmate(board.getCurrentPlayer())) {
                 System.out.println("Checkmate");
-                Color winner = currentPlayer == Color.WHITE ? Color.BLACK : Color.WHITE;
+                Color winner = board.getCurrentPlayer() == Color.WHITE ? Color.BLACK : Color.WHITE;
                 System.out.println(Utils.capitalize(winner.toString()) + " wins");
                 scanner.close();
                 return;
             }
 
-            System.out.print(Utils.capitalize(currentPlayer.toString()) + "'s move: ");
+            System.out.print(Utils.capitalize(board.getCurrentPlayer().toString()) + "'s move: ");
 
             String input;
             int[] fromRowCol;
@@ -63,7 +62,7 @@ public class Game
                 }
 
                 if (input.equals("resign")) {
-                    Color winner = currentPlayer == Color.WHITE ? Color.BLACK : Color.WHITE;
+                    Color winner = board.getCurrentPlayer() == Color.WHITE ? Color.BLACK : Color.WHITE;
                     System.out.println(Utils.capitalize(winner.toString()) + " wins");
                     scanner.close();
                     return;
@@ -91,7 +90,7 @@ public class Game
                 Piece tempToPiece = board.getPieceAt(toRowCol[0], toRowCol[1]);
 
                 if (board.movePiece(fromRowCol[0], fromRowCol[1], toRowCol[0], toRowCol[1])) {
-                    if (board.isCheck(currentPlayer)) {
+                    if (board.isCheck(board.getCurrentPlayer())) {
                         // undo move
                         board.setPieceAt(tempFromPiece, fromRowCol[0], fromRowCol[1]);
                         board.setPieceAt(tempToPiece, toRowCol[0], toRowCol[1]);
@@ -105,9 +104,8 @@ public class Game
                     continue;
                 }
             }
-            currentPlayer = (currentPlayer == Color.WHITE) ? Color.BLACK : Color.WHITE;
+            Color currentPlayer = (board.getCurrentPlayer() == Color.WHITE) ? Color.BLACK : Color.WHITE;
             board.setCurrentPlayer(currentPlayer);
-            System.out.println();
         }
     }
 }
