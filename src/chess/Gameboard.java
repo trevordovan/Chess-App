@@ -1,7 +1,7 @@
 /**
  * @author Trevor Dovan
  * @author Kate Liu
- */ 
+ */
 
 package chess;
 
@@ -9,17 +9,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.HashSet;
 
 import chess.enums.Color;
 import chess.pieces.*;
 import chess.utils.Utils;
 
 /**
- * The GameBoard class represents a chess game 
+ * The GameBoard class represents a chess game
  * board with pieces in their starting positions.
  */
-public class Gameboard
-{ 
+public class Gameboard {
     /**
      * The array of pieces on the game board.
      */
@@ -30,36 +30,38 @@ public class Gameboard
      */
     private Color currentPlayer;
 
+    private boolean[][] hasMoved; // matrix to track whether a piece has moved or not
+
     /**
-     * Initializes the chess game board by placing 
+     * Initializes the chess game board by placing
      * all the pieces in their starting positions.
      */
-    public Gameboard()
-    {
+    public Gameboard() {
         board = new Piece[8][8];
-       
+        hasMoved = new boolean[8][8];
+
         // Black Pieces
-        board[0][0] = new Rook(Color.BLACK, 0, 0);
+        board[0][0] = new Rook(Color.BLACK, 0, 0, Color.WHITE);
         board[0][1] = new Knight(Color.BLACK, 0, 1);
         board[0][2] = new Bishop(Color.BLACK, 0, 2);
         board[0][3] = new Queen(Color.BLACK, 0, 3);
         board[0][4] = new King(Color.BLACK, 0, 4);
         board[0][5] = new Bishop(Color.BLACK, 0, 5);
         board[0][6] = new Knight(Color.BLACK, 0, 6);
-        board[0][7] = new Rook(Color.BLACK, 0, 7);
+        board[0][7] = new Rook(Color.BLACK, 0, 7, Color.WHITE);
         for (int i = 0; i < 8; i++) {
             board[1][i] = new Pawn(Color.BLACK, 1, i);
         }
 
         // White Pieces
-        board[7][0] = new Rook(Color.WHITE, 7, 0);
+        board[7][0] = new Rook(Color.WHITE, 7, 0, Color.BLACK);
         board[7][1] = new Knight(Color.WHITE, 7, 1);
         board[7][2] = new Bishop(Color.WHITE, 7, 2);
         board[7][3] = new Queen(Color.WHITE, 7, 3);
         board[7][4] = new King(Color.WHITE, 7, 4);
         board[7][5] = new Bishop(Color.WHITE, 7, 5);
         board[7][6] = new Knight(Color.WHITE, 7, 6);
-        board[7][7] = new Rook(Color.WHITE, 7, 7);
+        board[7][7] = new Rook(Color.WHITE, 7, 7, Color.BLACK);
         for (int i = 0; i < 8; i++) {
             board[6][i] = new Pawn(Color.WHITE, 6, i);
         }
@@ -71,17 +73,25 @@ public class Gameboard
         }
     }
 
+    public boolean hasMoved(int row, int col) {
+        return hasMoved[row][col];
+    }
+
+    public void setMoved(int row, int col) {
+        hasMoved[row][col] = true;
+    }
+
     /**
      * Moves a piece from the specified source square to the specified
      * destination square on the game board.
+     * 
      * @param fromRow the row index of the source square
      * @param fromCol the column index of the source square
      * @param toRow   the row index of the destination square
      * @param toCol   the column index of the destination square
      * @return true if the move is successfully executed, false otherwise
      */
-    public boolean movePiece(int fromRow, int fromCol, int toRow, int toCol)
-    {
+    public boolean movePiece(int fromRow, int fromCol, int toRow, int toCol) {
         Piece selectedPiece = getPieceAt(fromRow, fromCol);
         if (selectedPiece == null) {
             return false;
@@ -96,6 +106,7 @@ public class Gameboard
             setPieceAt(selectedPiece, toRow, toCol);
             selectedPiece.setRow(toRow);
             selectedPiece.setCol(toCol);
+            selectedPiece.setMoved(true); // set hasMoved flag to true
 
             // Check for promotion of a pawn
             if (selectedPiece instanceof Pawn && (toRow == 0 || toRow == 7)) {
@@ -109,6 +120,7 @@ public class Gameboard
 
     /**
      * Determines whether the specified color is in check on the game board.
+     * 
      * @param currentPlayer the color to check for check
      * @return true if the specified color is in check, false otherwise
      */
@@ -140,11 +152,11 @@ public class Gameboard
 
     /**
      * Determines whether the specified color is in checkmate on the game board.
+     * 
      * @param currentPlayer the color to check for checkmate
      * @return true if the specified color is in checkmate, false otherwise
      */
-    public boolean isCheckmate(Color currentPlayer)
-    {
+    public boolean isCheckmate(Color currentPlayer) {
         if (!isCheck(currentPlayer)) {
             return false;
         }
@@ -160,13 +172,14 @@ public class Gameboard
                 if (row == kingPos[0] && col == kingPos[1]) {
                     continue;
                 }
-                if (Utils.isInBounds(row, col) && (board[row][col] == null || board[row][col].getColor() != currentPlayer)) {
+                if (Utils.isInBounds(row, col)
+                        && (board[row][col] == null || board[row][col].getColor() != currentPlayer)) {
                     Piece tempFromPiece = getPieceAt(kingPos[0], kingPos[1]);
                     Piece tempToPiece = getPieceAt(row, col);
                     if (movePiece(kingPos[0], kingPos[1], row, col)) {
                         if (!isCheck(currentPlayer)) {
                             // undo move
-                            setPieceAt(tempFromPiece,kingPos[0], kingPos[1]);
+                            setPieceAt(tempFromPiece, kingPos[0], kingPos[1]);
                             setPieceAt(tempToPiece, row, col);
                             return false;
                         }
@@ -188,7 +201,7 @@ public class Gameboard
             for (int attackSquareIndex : attackSquares) {
                 int[] attackRowCol = Utils.toRowCol(attackSquareIndex);
                 Piece tempAttackSquarePiece = getPieceAt(attackRowCol[0], attackRowCol[1]);
-                if(movePiece(piece.getRow(), piece.getCol(), attackRowCol[0], attackRowCol[1])) {
+                if (movePiece(piece.getRow(), piece.getCol(), attackRowCol[0], attackRowCol[1])) {
                     if (!isCheck(currentPlayer)) {
                         // undo move
                         setPieceAt(tempPiece, tempRow, tempCol);
@@ -202,7 +215,8 @@ public class Gameboard
             }
         }
 
-        // King cannot escape check and no other piece can block or capture the attacking piece
+        // King cannot escape check and no other piece can block or capture the
+        // attacking piece
         return true;
     }
 
@@ -228,7 +242,7 @@ public class Gameboard
                     isValidInput = true;
                     break;
                 case "R" : 
-                    promotedPiece = new Rook(color, row, col);
+                    promotedPiece = new Rook(color, row, col, color.opposite());
                     isValidInput = true;
                     break;
                 case "B" :
@@ -250,8 +264,7 @@ public class Gameboard
     /**
      * Prints the current state of the game board.
      */
-    public void printBoard()
-    {
+    public void printBoard() {
         System.out.println();
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
@@ -278,11 +291,11 @@ public class Gameboard
 
     /**
      * Finds the position of the king of the specified color on the game board.
+     * 
      * @param color the color of the king to find
      * @return the position of the king of the specified color, or null if not found
      */
-    public int[] findKing(Color color)
-    {
+    public int[] findKing(Color color) {
         for (int row = 0; row < 8; row++) {
             for (int col = 0; col < 8; col++) {
                 Piece piece = getPieceAt(row, col);
@@ -296,23 +309,23 @@ public class Gameboard
 
     /**
      * Get the Piece at a specified row and column index.
+     * 
      * @param row row index
      * @param col col index
      * @return Piece at location, null if empty
      */
-    public Piece getPieceAt(int row, int col)
-    {
+    public Piece getPieceAt(int row, int col) {
         return board[row][col];
-    } 
+    }
 
     /**
      * Sets the specified piece at the given row and column on the chess board.
+     * 
      * @param piece the piece to set on the board
-     * @param row the row index where the piece is to be placed
-     * @param col the column index where the piece is to be placed
+     * @param row   the row index where the piece is to be placed
+     * @param col   the column index where the piece is to be placed
      */
-    public void setPieceAt(Piece piece, int row, int col)
-    {
+    public void setPieceAt(Piece piece, int row, int col) {
         if (piece == null) {
             board[row][col] = piece;
             return;
@@ -324,6 +337,7 @@ public class Gameboard
 
     /**
      * Returns a list of all pieces for the given color on the board.
+     * 
      * @param color the color of the pieces to retrieve
      * @return a list of all pieces for the given color
      */
@@ -342,19 +356,59 @@ public class Gameboard
 
     /**
      * Returns the current player of the game.
+     * 
      * @return the color of the current player
      */
-    public Color getCurrentPlayer()
-    {
+    public Color getCurrentPlayer() {
         return currentPlayer;
     }
 
     /**
      * Sets the current player of the game to the specified color.
+     * 
      * @param color the color to set as the current player
      */
-    public void setCurrentPlayer(Color color)
-    {
+    public void setCurrentPlayer(Color color) {
         currentPlayer = color;
     }
+
+    public Set<Integer> getEnemyAttackSquares(Color playerColor) {
+        Set<Integer> enemyAttacks = new HashSet<>();
+        Color enemyColor = playerColor.opposite();
+
+        // Loop through all pieces on the board
+        for (int row = 0; row < 8; row++) {
+            for (int col = 0; col < 8; col++) {
+                Piece piece = getPieceAt(row, col);
+                if (piece != null && piece.getColor() == enemyColor) {
+                    // If the piece belongs to the opposing player, add its attack squares
+                    enemyAttacks.addAll(piece.getAttackSquares(this));
+                }
+            }
+        }
+
+        return enemyAttacks;
+    }
+
+    /**
+     * Returns true if the given square on the board is being attacked by a piece of
+     * the given color.
+     * 
+     * @param row   the row of the square to check
+     * @param col   the column of the square to check
+     * @param color the color of the attacking pieces to look for
+     * @return true if the square is being attacked, false otherwise
+     */
+    public boolean isSquareAttacked(int row, int col, Color color) {
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[i].length; j++) {
+                Piece piece = board[i][j];
+                if (piece != null && piece.getColor() == color && piece.canMoveTo(i, j, row, col, this)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }    
+
 }

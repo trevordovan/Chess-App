@@ -34,6 +34,13 @@ public abstract class Piece
      */
     private String name;
 
+    private Boolean hasMoved;
+
+    /**
+     * The color of the piece attacking, black or white.
+     */
+    protected Color attackingColor;
+
     /**
      * Constructs a new Piece object with the given
      * color, type, row, column, location, and name.
@@ -48,6 +55,11 @@ public abstract class Piece
         this.row = row;
         this.col = col;
         this.name = name;
+        this.hasMoved = false;
+    }
+
+    public void setAttackingColor(Color color) {
+        this.attackingColor = color;
     }
 
     /**
@@ -135,5 +147,9 @@ public abstract class Piece
     public void setName(String name)
     {
         this.name = name;
+    }
+    
+    public void setMoved(boolean hasMoved) {
+        this.hasMoved = hasMoved;
     }
 }

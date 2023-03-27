@@ -54,7 +54,7 @@ public class Queen extends Piece {
 
         // Check if the move is horizontal or vertical (like a Rook)
         if (toRow == fromRow || toCol == fromCol) {
-            Rook rook = new Rook(getColor(), fromRow, fromCol);
+            Rook rook = new Rook(getColor(), fromRow, fromCol, getColor().opposite());
             return rook.canMoveTo(fromRow, fromCol, toRow, toCol, board);
         }
 
@@ -83,7 +83,7 @@ public class Queen extends Piece {
         attackSquares.addAll(bishop.getAttackSquares(board));
 
         // Add all squares attacked by a Rook with the same color as this Queen
-        Rook rook = new Rook(getColor(), row, col);
+        Rook rook = new Rook(getColor(), row, col, getColor().opposite());
         attackSquares.addAll(rook.getAttackSquares(board));
 
         return attackSquares;
