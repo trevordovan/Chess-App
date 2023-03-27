@@ -108,52 +108,6 @@ public class Gameboard
     }
 
     /**
-     * Get the Piece at a specified row and column index.
-     * @param row row index
-     * @param col col index
-     * @return Piece at location, null if empty
-     */
-    public Piece getPieceAt(int row, int col)
-    {
-        return board[row][col];
-    } 
-
-    /**
-     * Sets the specified piece at the given row and column on the chess board.
-     * @param piece the piece to set on the board
-     * @param row the row index where the piece is to be placed
-     * @param col the column index where the piece is to be placed
-     */
-    public void setPieceAt(Piece piece, int row, int col)
-    {
-        if (piece == null) {
-            board[row][col] = piece;
-            return;
-        }
-        piece.setRow(row);
-        piece.setCol(col);
-        board[row][col] = piece;
-    }
-
-    /**
-     * Returns a list of all pieces for the given color on the board.
-     * @param color the color of the pieces to retrieve
-     * @return a list of all pieces for the given color
-     */
-    private List<Piece> getPieces(Color color) {
-        List<Piece> pieces = new ArrayList<>();
-        for (int row = 0; row < 8; row++) {
-            for (int col = 0; col < 8; col++) {
-                Piece piece = getPieceAt(row, col);
-                if (piece != null && piece.getColor() == color) {
-                    pieces.add(piece);
-                }
-            }
-        }
-        return pieces;
-    }
-
-    /**
      * Determines whether the specified color is in check on the game board.
      * @param currentPlayer the color to check for check
      * @return true if the specified color is in check, false otherwise
@@ -338,6 +292,52 @@ public class Gameboard
             }
         }
         return null;
+    }
+
+    /**
+     * Get the Piece at a specified row and column index.
+     * @param row row index
+     * @param col col index
+     * @return Piece at location, null if empty
+     */
+    public Piece getPieceAt(int row, int col)
+    {
+        return board[row][col];
+    } 
+
+    /**
+     * Sets the specified piece at the given row and column on the chess board.
+     * @param piece the piece to set on the board
+     * @param row the row index where the piece is to be placed
+     * @param col the column index where the piece is to be placed
+     */
+    public void setPieceAt(Piece piece, int row, int col)
+    {
+        if (piece == null) {
+            board[row][col] = piece;
+            return;
+        }
+        piece.setRow(row);
+        piece.setCol(col);
+        board[row][col] = piece;
+    }
+
+    /**
+     * Returns a list of all pieces for the given color on the board.
+     * @param color the color of the pieces to retrieve
+     * @return a list of all pieces for the given color
+     */
+    private List<Piece> getPieces(Color color) {
+        List<Piece> pieces = new ArrayList<>();
+        for (int row = 0; row < 8; row++) {
+            for (int col = 0; col < 8; col++) {
+                Piece piece = getPieceAt(row, col);
+                if (piece != null && piece.getColor() == color) {
+                    pieces.add(piece);
+                }
+            }
+        }
+        return pieces;
     }
 
     /**
