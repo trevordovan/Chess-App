@@ -80,6 +80,9 @@ public class Game
                             scanner.close();
                             return;
                         }
+                        else {
+                            break;
+                        }
                     }
                 }
                 
