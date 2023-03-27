@@ -11,12 +11,3 @@ The workspace contains three folders by default, where:
 
 and an addition folder:
 - `bin`:  the folder to maintain compiled output files
-
-## **Design**
-### **Gameboard**
-2D Array of pieces.
-
-### **Piece Class**
-
-### **Game Logic**
-#### **Win/Lose/Draw/Resign**
