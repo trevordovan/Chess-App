@@ -2,7 +2,7 @@ package chess.pieces;
 
 import java.util.*;
 
-import chess.GameBoard;
+import chess.Gameboard;
 import chess.Piece;
 import chess.enums.Color;
 import chess.pieces.Rook;
