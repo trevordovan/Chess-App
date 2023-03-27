@@ -1,6 +1,6 @@
 package chess.pieces;
 
-import chess.Gameboard;
+import chess.GameBoard;
 import chess.Piece;
 import chess.enums.Color;
 import chess.utils.Utils;
@@ -36,7 +36,7 @@ public class Knight extends Piece
      * @return true if the move is valid, false otherwise
      */
     @Override
-    public boolean canMoveTo(int fromRow, int fromCol, int toRow, int toCol, Gameboard board)
+    public boolean canMoveTo(int fromRow, int fromCol, int toRow, int toCol, GameBoard board)
     {
         Set<Integer> attacks = getAttackSquares(board);
 
@@ -78,7 +78,7 @@ public class Knight extends Piece
      * @return a set of integers representing the squares that this piece is attacking
      */
     @Override
-    public Set<Integer> getAttackSquares(Gameboard board)
+    public Set<Integer> getAttackSquares(GameBoard board)
     {
         Set<Integer> attacks = new HashSet<>();
 

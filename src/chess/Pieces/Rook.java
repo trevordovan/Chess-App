@@ -2,7 +2,7 @@ package chess.pieces;
 
 import java.util.*;
 
-import chess.Gameboard;
+import chess.GameBoard;
 import chess.Piece;
 import chess.enums.Color;
 import chess.utils.Utils;
@@ -38,7 +38,7 @@ public class Rook extends Piece
      * @return true if the move is valid, false otherwise
      */
     @Override
-    public boolean canMoveTo(int fromRow, int fromCol, int toRow, int toCol, Gameboard board)
+    public boolean canMoveTo(int fromRow, int fromCol, int toRow, int toCol, GameBoard board)
     {
         // Get the attack squares for the rook
         Set<Integer> attacks = getAttackSquares(board);
@@ -96,7 +96,7 @@ public class Rook extends Piece
      *         attacking
      */
     @Override
-    public Set<Integer> getAttackSquares(Gameboard board)
+    public Set<Integer> getAttackSquares(GameBoard board)
     {
         Set<Integer> attacks = new HashSet<>();
 

@@ -3,7 +3,7 @@ package chess.pieces;
 import java.util.HashSet;
 import java.util.Set;
 
-import chess.Gameboard;
+import chess.GameBoard;
 import chess.Piece;
 import chess.enums.Color;
 import chess.utils.Utils;
@@ -37,7 +37,7 @@ public class King extends Piece
      * @return true if the move is valid, false otherwise
      */
     @Override
-    public boolean canMoveTo(int fromRow, int fromCol, int toRow, int toCol, Gameboard board)
+    public boolean canMoveTo(int fromRow, int fromCol, int toRow, int toCol, GameBoard board)
     {
         Piece toPiece = board.getPieceAt(toRow, toCol);
         if (toPiece != null) {
@@ -59,7 +59,7 @@ public class King extends Piece
      * @return a set of integers representing the squares that this piece is attacking
      */
     @Override
-    public Set<Integer> getAttackSquares(Gameboard board) {
+    public Set<Integer> getAttackSquares(GameBoard board) {
         Set<Integer> attacks = new HashSet<>();
         int[] kingPos = board.findKing(this.getColor());
         int row = kingPos[0];
