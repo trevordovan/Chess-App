@@ -10,7 +10,7 @@ import chess.pieces.*;
  * The GameBoard class represents a chess game 
  * board with pieces in their starting positions.
  */
-public class Gameboard
+public class GameBoard
 { 
     /**
      * The array of pieces on the game board.
@@ -26,7 +26,7 @@ public class Gameboard
      * Initializes the chess game board by placing 
      * all the pieces in their starting positions.
      */
-    public Gameboard()
+    public GameBoard()
     {
         board = new Piece[8][8];
        
