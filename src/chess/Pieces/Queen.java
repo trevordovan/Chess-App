@@ -5,8 +5,6 @@ import java.util.*;
 import chess.Gameboard;
 import chess.Piece;
 import chess.enums.Color;
-import chess.pieces.Rook;
-import chess.pieces.Bishop;
 
 /**
  * Represents a queen chess piece on the game board.
@@ -21,12 +19,9 @@ public class Queen extends Piece {
      * @param col   the column of the piece on the board (0-7)
      */
 
-    public Queen(Color color, int row, int col, Bishop bishop, Rook rook) {
+    public Queen(Color color, int row, int col) {
         super(color, row, col, (color == Color.WHITE) ? "wQ" : "bQ");
-        this.bishop = bishop;
-        this.rook = rook;    
     }
-
 
     /**
      * Determines whether or not a queen can move from the specified
@@ -41,14 +36,28 @@ public class Queen extends Piece {
      * @return true if the move is valid, false otherwise
      */
     @Override
-    public boolean canMoveTo(int fromRow, int fromCol, int toRow, int toCol, GameBoard board) {
+    public boolean canMoveTo(int fromRow, int fromCol, int toRow, int toCol, Gameboard board) {
         // A Queen piece can move like a Bishop or a Rook piece:
         // It can move any number of squares diagonally in any direction, or any number
         // of squares horizontally or vertically.
         // We can reuse the canMoveTo method for Bishop and Rook to check if a move is
         // legal for the Queen.
-        return new Bishop(getColor()).canMoveTo(fromRow, fromCol, toRow, toCol, board) ||
-                new Rook(getColor()).canMoveTo(fromRow, fromCol, toRow, toCol, board);
+
+        // Check if the move is diagonal (like a Bishop)
+        if (Math.abs(toRow - fromRow) == Math.abs(toCol - fromCol)) {
+            Bishop bishop = new Bishop(getColor(), fromRow, fromCol);
+            return bishop.canMoveTo(fromRow, fromCol, toRow, toCol, board);
+        }
+
+        // Check if the move is horizontal or vertical (like a Rook)
+        if (toRow == fromRow || toCol == fromCol) {
+            Rook rook = new Rook(getColor(), fromRow, fromCol);
+            return rook.canMoveTo(fromRow, fromCol, toRow, toCol, board);
+        }
+
+        // If the move is neither diagonal nor horizontal/vertical, it is invalid
+        return false;
+
     }
 
     /**
@@ -62,16 +71,18 @@ public class Queen extends Piece {
      *         attacking
      */
     @Override
-    public Set<Integer> getAttackSquares(GameBoard board) {
+    public Set<Integer> getAttackSquares(Gameboard board) {
         Set<Integer> attackSquares = new HashSet<Integer>();
         int row = getRow();
         int col = getCol();
 
         // Add all squares attacked by a Bishop with the same color as this Queen
-        attackSquares.addAll(new Bishop(getColor()).getAttackSquares(board));
+        Bishop bishop = new Bishop(getColor(), row, col);
+        attackSquares.addAll(bishop.getAttackSquares(board));
 
         // Add all squares attacked by a Rook with the same color as this Queen
-        attackSquares.addAll(new Rook(getColor()).getAttackSquares(board));
+        Rook rook = new Rook(getColor(), row, col);
+        attackSquares.addAll(rook.getAttackSquares(board));
 
         return attackSquares;
     }
