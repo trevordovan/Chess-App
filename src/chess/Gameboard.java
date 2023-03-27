@@ -1,3 +1,8 @@
+/**
+ * @author Trevor Dovan
+ * @author Kate Liu
+ */ 
+
 package chess;
 
 import java.util.ArrayList;
