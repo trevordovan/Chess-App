@@ -2,7 +2,7 @@ package chess.pieces;
 
 import java.util.*;
 
-import chess.GameBoard;
+import chess.Gameboard;
 import chess.Piece;
 import chess.enums.Color;
 
@@ -35,7 +35,7 @@ public class Bishop extends Piece {
      * @return true if the move is valid, false otherwise
      */
     @Override
-    public boolean canMoveTo(int fromRow, int fromCol, int toRow, int toCol, GameBoard board) {
+    public boolean canMoveTo(int fromRow, int fromCol, int toRow, int toCol, Gameboard board) {
         // Check if the move is diagonal
         if (Math.abs(fromRow - toRow) != Math.abs(fromCol - toCol)) {
             return false;
@@ -70,7 +70,7 @@ public class Bishop extends Piece {
      *         attacking
      */
     @Override
-    public Set<Integer> getAttackSquares(GameBoard board) {
+    public Set<Integer> getAttackSquares(Gameboard board) {
         Set<Integer> attackSquares = new HashSet<>();
         int[] rowDirs = { -1, -1, 1, 1 };
         int[] colDirs = { -1, 1, -1, 1 };
