@@ -85,6 +85,8 @@ public class Gameboard
         if (selectedPiece.canMoveTo(fromRow, fromCol, toRow, toCol, this)) {
             setPieceAt(null, fromRow, fromCol);
             setPieceAt(selectedPiece, toRow, toCol);
+            selectedPiece.setRow(toRow);
+            selectedPiece.setCol(toCol);
 
             // Check for promotion of a pawn
             if (selectedPiece instanceof Pawn && (toRow == 0 || toRow == 7)) {
