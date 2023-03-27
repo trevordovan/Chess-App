@@ -22,9 +22,9 @@ public class Rook extends Piece {
     /**
      * Constructs a new Rook Piece object with the given
      * color, row, and column.
-     * @param color      the color of the piece (either Color.WHITE or Color.BLACK)
-     * @param row        the row of the piece on the board (0-7)
-     * @param col        the column of the piece on the board (0-7)
+     * @param color the color of the piece (either Color.WHITE or Color.BLACK)
+     * @param row the row of the piece on the board (0-7)
+     * @param col the column of the piece on the board (0-7)
      * @param enemyColor the color of the enemy pieces (either Color.WHITE or Color.BLACK)
      */
     public Rook(Color color, int row, int col, Color enemyColor) {
