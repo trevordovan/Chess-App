@@ -1,7 +1,7 @@
 /**
  * @author Trevor Dovan
  * @author Kate Liu
- */ 
+ */
 
 package chess;
 
@@ -13,8 +13,7 @@ import chess.utils.Utils;
 /**
  * The `Game` class represents a game of chess.
  */
-public class Game
-{
+public class Game {
     /**
      * The gameboard.
      */
@@ -23,21 +22,20 @@ public class Game
     /**
      * Creates a new game of chess.
      */
-    public Game()
-    {
+    public Game() {
         board = new Gameboard();
     }
 
     /**
      * Allows players to take turns making moves until the game ends.
      * Prompts players for input and makes moves on the game board
-     * accordingly. Checks for check and checkmate each move. Ends 
+     * accordingly. Checks for check and checkmate each move. Ends
      * the game when a player is checkmated is reached.
      */
     public void play() {
         Scanner scanner = new Scanner(System.in);
         board.setCurrentPlayer(Color.WHITE);
-    
+
         while (true) {
             board.printBoard();
 
@@ -49,7 +47,6 @@ public class Game
                 return;
             }
 
-            // This could be printed when it's checked later, there is no need to run it a second time here
             if (board.isCheck(board.getCurrentPlayer())) {
                 System.out.println("Check");
             }
@@ -58,7 +55,7 @@ public class Game
 
             String input;
             int[] fromRowCol;
-            int[] toRowCol; 
+            int[] toRowCol;
             while (true) {
                 input = scanner.nextLine();
                 if (input.equals("q")) {
@@ -79,25 +76,31 @@ public class Game
                         if (draw.equals("draw")) {
                             scanner.close();
                             return;
-                        }
-                        else {
+                        } else {
                             break;
                         }
                     }
                 }
-                
+
                 if (!Utils.isValidInput(input)) {
                     System.out.println("Invalid input format");
                     continue;
                 }
-                
+
                 fromRowCol = Utils.convertFileRankToRowCol(input.substring(0, 2));
                 toRowCol = Utils.convertFileRankToRowCol(input.substring(3, 5));
-                
+
+                int enPassantCol = -1; // initialize to -1, which means no en passant capture is possible
+                if (input.contains("e.p.")) {
+                    enPassantCol = Utils.convertFileRankToRowCol(input.substring(6))[1];
+                    System.out.println(enPassantCol);
+                    input = input.substring(0, 5);
+                }
+
                 Piece tempFromPiece = board.getPieceAt(fromRowCol[0], fromRowCol[1]);
                 Piece tempToPiece = board.getPieceAt(toRowCol[0], toRowCol[1]);
 
-                if (board.movePiece(fromRowCol[0], fromRowCol[1], toRowCol[0], toRowCol[1])) {
+                if (board.movePiece(fromRowCol[0], fromRowCol[1], toRowCol[0], toRowCol[1], enPassantCol)) {
                     if (board.isCheck(board.getCurrentPlayer())) {
                         // undo move
                         board.setPieceAt(tempFromPiece, fromRowCol[0], fromRowCol[1]);
@@ -106,8 +109,7 @@ public class Game
                         continue;
                     }
                     break;
-                }
-                else {
+                } else {
                     System.out.println("Illegal move, try again");
                     continue;
                 }
@@ -115,4 +117,5 @@ public class Game
             board.setCurrentPlayer(board.getCurrentPlayer().opposite());
         }
     }
+
 }

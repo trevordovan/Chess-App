@@ -94,7 +94,7 @@ public class Utils
      */
     public static boolean isValidInput(String input)
     {
-        if (input.length() != 5) {
+        if (input.length() < 5 || input.length() > 8) {
             return false;
         }
 
@@ -106,6 +106,11 @@ public class Utils
             toFile < 'a' || toFile > 'h' || toRank < '1' || toRank > '8') {
             return false;
         }
+
+        if (input.length() == 8 && !input.substring(6).equals("e.p.")) {
+            return false;
+        }
+
         return true;
     }
 

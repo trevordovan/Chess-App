@@ -45,14 +45,14 @@ public class Pawn extends Piece {
     public boolean canMoveTo(int fromRow, int fromCol, int toRow, int toCol, Gameboard board) {
         // -1 for white, 1 for black
         int forwardDirection = this.getColor() == Color.WHITE ? -1 : 1;
-    
+
         // Check that the piece is moving in the correct direction based on its color
         if (this.getColor() == Color.WHITE && toRow >= fromRow) {
             return false;
         } else if (this.getColor() == Color.BLACK && toRow <= fromRow) {
             return false;
         }
-    
+
         // Check that the piece is not moving sideways
         if (fromCol != toCol) {
             // Check if the pawn is capturing a piece diagonally
@@ -62,10 +62,11 @@ public class Pawn extends Piece {
                     Pawn justDoubleMovedPawn = board.getJustDoubleMoved();
                     if (justDoubleMovedPawn.getRow() == fromRow &&
                             Math.abs(justDoubleMovedPawn.getCol() - toCol) == 1 &&
-                            board.getPieceAt(toRow - forwardDirection, toCol) == null) {
+                            toRow - fromRow == forwardDirection &&
+                            board.getPieceAt(toRow, toCol) == null) {
                         return true;
                     }
-                }                
+                }
                 return false;
             }
             Piece capturedPiece = board.getPieceAt(toRow, toCol);
@@ -77,7 +78,7 @@ public class Pawn extends Piece {
                 return false;
             }
         }
-    
+
         // Check if the pawn is moving one or two squares forward
         if (fromCol == toCol && Math.abs(toRow - fromRow) <= 2) {
             // Check if the pawn is not blocked by another piece
@@ -93,7 +94,7 @@ public class Pawn extends Piece {
         }
         // Move is not valid
         return false;
-    }    
+    }
 
     /**
      * Returns a set of integers representing the squares that this pawn is
@@ -126,21 +127,17 @@ public class Pawn extends Piece {
                 } else {
                     // Check for En passant
                     Piece lastMovedPiece = board.getLastMovedPiece();
-                    Pawn justDoubleMovedPawn = board.getJustDoubleMoved();
-
-                    if (lastMovedPiece instanceof Pawn && board.hasJustDoubleMoved((Pawn) lastMovedPiece)) {
-                        int lastMovedRow = justDoubleMovedPawn.getRow();
-                        int lastMovedCol = justDoubleMovedPawn.getCol();
-
-                        if (lastMovedPiece.getColor() != this.getColor() &&
-                                lastMovedRow == row && Math.abs(lastMovedCol - col) == 1) {
-                            if (attackRow == lastMovedRow + forwardDir && attackCol == lastMovedCol) {
+                    if (lastMovedPiece instanceof Pawn) {
+                        Pawn lastMovedPawn = (Pawn) lastMovedPiece;
+                        if (lastMovedPawn.getColor() != this.getColor()) {
+                            int lastMovedRow = lastMovedPawn.getRow();
+                            int lastMovedCol = lastMovedPawn.getCol();
+                            if (lastMovedRow == row - forwardDir * 2 && lastMovedCol == attackCol) {
                                 // Add the attack square to the set of attacks
                                 attacks.add(Utils.toIndex(attackRow, attackCol));
                             }
                         }
                     }
-
                 }
             }
         }
