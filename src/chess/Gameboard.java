@@ -33,7 +33,6 @@ public class Gameboard
     /** The boolean matrix to track whether a piece has moved or not */
     private boolean[][] hasMoved;
 
-<<<<<<< HEAD
     /**
      * The piece that was moved in the last turn.
      */
@@ -72,8 +71,6 @@ public class Gameboard
         return lastMoveToCol;
     }
 
-=======
->>>>>>> 83d91ca313c431a56d2716a44f90fbf3f87f8e5d
     /**
      * Initializes the chess game board by placing
      * all the pieces in their starting positions.
@@ -504,19 +501,8 @@ public class Gameboard
         }
         return null;
     }
-<<<<<<< HEAD
 
     public boolean hasJustDoubleMoved(Pawn pawn) {
-=======
-    
-    /**
-     * Determines whether the specified pawn has just double moved.
-     * @param pawn the pawn to check
-     * @return true if the pawn has just double moved, false otherwise.
-     */
-    public boolean hasJustDoubleMoved(Pawn pawn)
-    {
->>>>>>> 83d91ca313c431a56d2716a44f90fbf3f87f8e5d
         Move lastMove = this.getLastMove();
         if (lastMove != null && lastMove.getPiece() != null && lastMove.getPiece() == pawn
                 && Math.abs(lastMove.getFromRow() - lastMove.getToRow()) == 2) {
@@ -524,36 +510,16 @@ public class Gameboard
         }
         return false;
     }
-<<<<<<< HEAD
 
     public Piece getLastMovedPiece() {
-=======
-    
-    /**
-     * Returns the last piece that was moved on the game board.
-     * @return the last piece that was moved on the game board or null if there have been no moves made yet.
-     */
-    public Piece getLastMovedPiece()
-    {
->>>>>>> 83d91ca313c431a56d2716a44f90fbf3f87f8e5d
         if (this.moves.isEmpty()) {
             return null;
         }
         Move lastMove = this.moves.get(this.moves.size() - 1);
         return lastMove.getPiece();
     }
-<<<<<<< HEAD
 
     public Pawn getJustDoubleMoved() {
-=======
-    
-    /**
-     * Returns the pawn that has just double moved.
-     * @return the pawn that has just double moved or null if no pawn has just double moved.
-     */
-    public Pawn getJustDoubleMoved()
-    {
->>>>>>> 83d91ca313c431a56d2716a44f90fbf3f87f8e5d
         if (moves.size() < 2) {
             return null;
         }
@@ -564,8 +530,4 @@ public class Gameboard
         }
         return null;
     }
-<<<<<<< HEAD
-
-=======
->>>>>>> 83d91ca313c431a56d2716a44f90fbf3f87f8e5d
 }
