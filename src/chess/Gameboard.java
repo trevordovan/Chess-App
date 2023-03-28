@@ -33,43 +33,7 @@ public class Gameboard
     /** The boolean matrix to track whether a piece has moved or not */
     private boolean[][] hasMoved;
 
-    /**
-     * The piece that was moved in the last turn.
-     */
-    private Piece lastMovePiece;
-
-    /**
-     * The column that the last move's piece moved to.
-     */
-    private int lastMoveToCol;
-
-    /**
-     * Sets the piece that was moved in the last turn.
-     */
-    public void setLastMovePiece(Piece piece) {
-        lastMovePiece = piece;
-    }
-
-    /**
-     * Sets the column that the last move's piece moved to.
-     */
-    public void setLastMoveToCol(int col) {
-        lastMoveToCol = col;
-    }
-
-    /**
-     * Gets the piece that was moved in the last turn.
-     */
-    public Piece getLastMovePiece() {
-        return lastMovePiece;
-    }
-
-    /**
-     * Gets the column that the last move's piece moved to.
-     */
-    public int getLastMoveToCol() {
-        return lastMoveToCol;
-    }
+    
 
     /**
      * Initializes the chess game board by placing
@@ -79,6 +43,7 @@ public class Gameboard
         board = new Piece[8][8];
         hasMoved = new boolean[8][8];
         this.moves = new ArrayList<Move>();
+
 
         // Black Pieces
         board[0][0] = new Rook(Color.BLACK, 0, 0, Color.WHITE);
@@ -122,7 +87,7 @@ public class Gameboard
      * @param toCol   the column index of the destination square
      * @return true if the move is successfully executed, false otherwise
      */
-    public boolean movePiece(int fromRow, int fromCol, int toRow, int toCol, int enPassant) {
+    public boolean movePiece(int fromRow, int fromCol, int toRow, int toCol) {
         Piece selectedPiece = getPieceAt(fromRow, fromCol);
         if (selectedPiece == null) {
             return false;
@@ -130,20 +95,6 @@ public class Gameboard
 
         if (selectedPiece.getColor() != currentPlayer) {
             return false;
-        }
-
-        // Check for en passant
-        if (selectedPiece instanceof Pawn) {
-            int enPassantRow = selectedPiece.getColor() == Color.WHITE ? 3 : 4;
-            int lastMoveToCol = getLastMoveToCol();
-            Piece lastMovePiece = getLastMovePiece();
-            if (lastMovePiece instanceof Pawn && lastMovePiece.getColor() != selectedPiece.getColor()
-                    && lastMovePiece.getRow() == enPassantRow && lastMoveToCol == enPassant) {
-                // Perform en passant capture
-                int capturedRow = selectedPiece.getRow();
-                int capturedCol = lastMoveToCol;
-                setPieceAt(null, capturedRow, capturedCol);
-            }
         }
 
         if (selectedPiece.canMoveTo(fromRow, fromCol, toRow, toCol, this)) {
@@ -158,14 +109,8 @@ public class Gameboard
                 Piece promotedPiece = promotionDialog(selectedPiece.getColor(), toRow, toCol);
                 setPieceAt(promotedPiece, toRow, toCol);
             }
-
-            // Update last move information
-            setLastMovePiece(selectedPiece);
-            setLastMoveToCol(toCol);
-
             return true;
         }
-
         return false;
     }
 
@@ -225,7 +170,7 @@ public class Gameboard
                         && (board[row][col] == null || board[row][col].getColor() != currentPlayer)) {
                     Piece tempFromPiece = getPieceAt(kingPos[0], kingPos[1]);
                     Piece tempToPiece = getPieceAt(row, col);
-                    if (movePiece(kingPos[0], kingPos[1], row, col, -1)) {
+                    if (movePiece(kingPos[0], kingPos[1], row, col)) {
                         if (!isCheck(currentPlayer)) {
                             // undo move
                             setPieceAt(tempFromPiece, kingPos[0], kingPos[1]);
@@ -250,7 +195,7 @@ public class Gameboard
             for (int attackSquareIndex : attackSquares) {
                 int[] attackRowCol = Utils.toRowCol(attackSquareIndex);
                 Piece tempAttackSquarePiece = getPieceAt(attackRowCol[0], attackRowCol[1]);
-                if (movePiece(piece.getRow(), piece.getCol(), attackRowCol[0], attackRowCol[1], -1)) {
+                if (movePiece(piece.getRow(), piece.getCol(), attackRowCol[0], attackRowCol[1])) {
                     if (!isCheck(currentPlayer)) {
                         // undo move
                         setPieceAt(tempPiece, tempRow, tempCol);
@@ -270,40 +215,39 @@ public class Gameboard
     }
 
     /**
-     * Prompts the user to choose a piece to promote a pawn to and returns the
-     * promoted piece.
-     * 
+     * Prompts the user to choose a piece to promote a pawn to and returns the promoted piece.
      * @param color the color of the pawn being promoted
-     * @param row   the row of the pawn being promoted
-     * @param col   the column of the pawn being promoted
+     * @param row the row of the pawn being promoted
+     * @param col the column of the pawn being promoted
      * @return the piece that the pawn is being promoted to
      */
-    public Piece promotionDialog(Color color, int row, int col) {
+    public Piece promotionDialog(Color color, int row, int col)
+    {
         Piece promotedPiece = null;
-
+        
         System.out.print("Choose your promotion (Q, R, B, N): ");
         Scanner scanner = new Scanner(System.in); // not closed because we are still scanning for moves after
         boolean isValidInput = false;
         while (!isValidInput) {
             String input = scanner.nextLine();
             switch (input) {
-                case "Q":
+                case "Q" : 
                     promotedPiece = new Queen(color, row, col);
                     isValidInput = true;
                     break;
-                case "R":
+                case "R" : 
                     promotedPiece = new Rook(color, row, col, color.opposite());
                     isValidInput = true;
                     break;
-                case "B":
+                case "B" :
                     promotedPiece = new Bishop(color, row, col);
                     isValidInput = true;
                     break;
-                case "N":
+                case "N" :
                     promotedPiece = new Knight(color, row, col);
                     isValidInput = true;
                     break;
-                default:
+                default : 
                     System.out.println("Invalid input.");
                     continue;
             }
@@ -358,22 +302,22 @@ public class Gameboard
 
     /**
      * Checks if a piece at the specified row and column has been moved before.
-     * 
      * @param row the row index of the piece
      * @param col the column index of the piece
      * @return true if the piece has been moved before, false otherwise
      */
-    public boolean hasMoved(int row, int col) {
+    public boolean hasMoved(int row, int col)
+    {
         return hasMoved[row][col];
     }
 
     /**
      * Sets the hasMoved flag for the piece at the specified row and column to true.
-     * 
      * @param row the row index of the piece
      * @param col the column index of the piece
      */
-    public void setMoved(int row, int col) {
+    public void setMoved(int row, int col)
+    {
         hasMoved[row][col] = true;
     }
 
@@ -440,14 +384,10 @@ public class Gameboard
     }
 
     /**
-     * Returns a set of all squares on the board that are currently being attacked
-     * by the enemy pieces
+     * Returns a set of all squares on the board that are currently being attacked by the enemy pieces
      * of the specified player color.
-     * 
-     * @param playerColor the color of the player whose enemy attacks are being
-     *                    checked
-     * @return a set of integers representing the squares being attacked by the
-     *         enemy pieces
+     * @param playerColor the color of the player whose enemy attacks are being checked
+     * @return a set of integers representing the squares being attacked by the enemy pieces
      */
     public Set<Integer> getEnemyAttackSquares(Color playerColor)
     {
@@ -471,7 +411,6 @@ public class Gameboard
     /**
      * Returns true if the given square on the board is being attacked by a piece of
      * the given color.
-     * 
      * @param row   the row of the square to check
      * @param col   the column of the square to check
      * @param color the color of the attacking pieces to look for
@@ -488,7 +427,7 @@ public class Gameboard
             }
         }
         return false;
-    }
+    }    
 
     /**
      * Returns the last move made on the game board.
@@ -501,16 +440,15 @@ public class Gameboard
         }
         return null;
     }
-
+    
     public boolean hasJustDoubleMoved(Pawn pawn) {
         Move lastMove = this.getLastMove();
-        if (lastMove != null && lastMove.getPiece() != null && lastMove.getPiece() == pawn
-                && Math.abs(lastMove.getFromRow() - lastMove.getToRow()) == 2) {
+        if (lastMove != null && lastMove.getPiece() != null && lastMove.getPiece() == pawn && Math.abs(lastMove.getFromRow() - lastMove.getToRow()) == 2) {
             return true;
         }
         return false;
     }
-
+    
     public Piece getLastMovedPiece() {
         if (this.moves.isEmpty()) {
             return null;
@@ -518,7 +456,7 @@ public class Gameboard
         Move lastMove = this.moves.get(this.moves.size() - 1);
         return lastMove.getPiece();
     }
-
+    
     public Pawn getJustDoubleMoved() {
         if (moves.size() < 2) {
             return null;
@@ -530,4 +468,10 @@ public class Gameboard
         }
         return null;
     }
+<<<<<<< HEAD
+=======
+    
+    
+
+>>>>>>> parent of 93f695c (changing input with en passant)
 }
