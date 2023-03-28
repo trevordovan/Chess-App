@@ -23,7 +23,9 @@ public class Gameboard
 {
     /** The array of pieces on the game board. */
     private Piece[][] board;
-    private List<Move> moves; // define the moves field as a list of Move objects
+
+    /** A list of all the moves made in the game. */
+    private List<Move> moves;
 
     /** The color of the current player */
     private Color currentPlayer;
