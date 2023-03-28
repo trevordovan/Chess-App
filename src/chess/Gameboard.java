@@ -14,30 +14,22 @@ import java.util.HashSet;
 import chess.enums.Color;
 import chess.pieces.*;
 import chess.utils.Utils;
-import chess.Move;
 
 /**
  * The GameBoard class represents a chess game
  * board with pieces in their starting positions.
  */
-public class Gameboard {
-    /**
-     * The array of pieces on the game board.
-     */
+public class Gameboard
+{
+    /** The array of pieces on the game board. */
     private Piece[][] board;
     private List<Move> moves; // define the moves field as a list of Move objects
 
-    /**
-     * The color of the current player
-     */
+    /** The color of the current player */
     private Color currentPlayer;
 
-    /**
-     * The boolean matrix to track whether a piece has moved or not
-     */
+    /** The boolean matrix to track whether a piece has moved or not */
     private boolean[][] hasMoved;
-
-    
 
     /**
      * Initializes the chess game board by placing
@@ -47,7 +39,6 @@ public class Gameboard {
         board = new Piece[8][8];
         hasMoved = new boolean[8][8];
         this.moves = new ArrayList<Move>();
-
 
         // Black Pieces
         board[0][0] = new Rook(Color.BLACK, 0, 0, Color.WHITE);
@@ -85,7 +76,6 @@ public class Gameboard {
     /**
      * Moves a piece from the specified source square to the specified
      * destination square on the game board.
-     * 
      * @param fromRow the row index of the source square
      * @param fromCol the column index of the source square
      * @param toRow   the row index of the destination square
@@ -121,7 +111,6 @@ public class Gameboard {
 
     /**
      * Determines whether the specified color is in check on the game board.
-     * 
      * @param currentPlayer the color to check for check
      * @return true if the specified color is in check, false otherwise
      */
@@ -153,7 +142,6 @@ public class Gameboard {
 
     /**
      * Determines whether the specified color is in checkmate on the game board.
-     * 
      * @param currentPlayer the color to check for checkmate
      * @return true if the specified color is in checkmate, false otherwise
      */
@@ -292,7 +280,6 @@ public class Gameboard {
 
     /**
      * Finds the position of the king of the specified color on the game board.
-     * 
      * @param color the color of the king to find
      * @return the position of the king of the specified color, or null if not found
      */
@@ -331,7 +318,6 @@ public class Gameboard {
 
     /**
      * Get the Piece at a specified row and column index.
-     * 
      * @param row row index
      * @param col col index
      * @return Piece at location, null if empty
@@ -342,7 +328,6 @@ public class Gameboard {
 
     /**
      * Sets the specified piece at the given row and column on the chess board.
-     * 
      * @param piece the piece to set on the board
      * @param row   the row index where the piece is to be placed
      * @param col   the column index where the piece is to be placed
@@ -359,7 +344,6 @@ public class Gameboard {
 
     /**
      * Returns a list of all pieces for the given color on the board.
-     * 
      * @param color the color of the pieces to retrieve
      * @return a list of all pieces for the given color
      */
@@ -378,19 +362,19 @@ public class Gameboard {
 
     /**
      * Returns the current player of the game.
-     * 
      * @return the color of the current player
      */
-    public Color getCurrentPlayer() {
+    public Color getCurrentPlayer()
+    {
         return currentPlayer;
     }
 
     /**
      * Sets the current player of the game to the specified color.
-     * 
      * @param color the color to set as the current player
      */
-    public void setCurrentPlayer(Color color) {
+    public void setCurrentPlayer(Color color)
+    {
         currentPlayer = color;
     }
 
@@ -400,7 +384,8 @@ public class Gameboard {
      * @param playerColor the color of the player whose enemy attacks are being checked
      * @return a set of integers representing the squares being attacked by the enemy pieces
      */
-    public Set<Integer> getEnemyAttackSquares(Color playerColor) {
+    public Set<Integer> getEnemyAttackSquares(Color playerColor)
+    {
         Set<Integer> enemyAttacks = new HashSet<>();
         Color enemyColor = playerColor.opposite();
 
@@ -426,7 +411,8 @@ public class Gameboard {
      * @param color the color of the attacking pieces to look for
      * @return true if the square is being attacked, false otherwise
      */
-    public boolean isSquareAttacked(int row, int col, Color color) {
+    public boolean isSquareAttacked(int row, int col, Color color)
+    {
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[i].length; j++) {
                 Piece piece = board[i][j];
@@ -438,14 +424,25 @@ public class Gameboard {
         return false;
     }    
 
-    public Move getLastMove() {
+    /**
+     * Returns the last move made on the game board.
+     * @return the last move made on the game board or null if there have been no moves made yet.
+     */
+    public Move getLastMove()
+    {
         if (this.moves.size() > 0) {
             return this.moves.get(this.moves.size() - 1);
         }
         return null;
     }
     
-    public boolean hasJustDoubleMoved(Pawn pawn) {
+    /**
+     * Determines whether the specified pawn has just double moved.
+     * @param pawn the pawn to check
+     * @return true if the pawn has just double moved, false otherwise.
+     */
+    public boolean hasJustDoubleMoved(Pawn pawn)
+    {
         Move lastMove = this.getLastMove();
         if (lastMove != null && lastMove.getPiece() != null && lastMove.getPiece() == pawn && Math.abs(lastMove.getFromRow() - lastMove.getToRow()) == 2) {
             return true;
@@ -453,7 +450,12 @@ public class Gameboard {
         return false;
     }
     
-    public Piece getLastMovedPiece() {
+    /**
+     * Returns the last piece that was moved on the game board.
+     * @return the last piece that was moved on the game board or null if there have been no moves made yet.
+     */
+    public Piece getLastMovedPiece()
+    {
         if (this.moves.isEmpty()) {
             return null;
         }
@@ -461,7 +463,12 @@ public class Gameboard {
         return lastMove.getPiece();
     }
     
-    public Pawn getJustDoubleMoved() {
+    /**
+     * Returns the pawn that has just double moved.
+     * @return the pawn that has just double moved or null if no pawn has just double moved.
+     */
+    public Pawn getJustDoubleMoved()
+    {
         if (moves.size() < 2) {
             return null;
         }
@@ -472,7 +479,4 @@ public class Gameboard {
         }
         return null;
     }
-    
-    
-
 }
