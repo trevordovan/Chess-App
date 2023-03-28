@@ -37,12 +37,8 @@ public class Game
     public void play() {
         Scanner scanner = new Scanner(System.in);
         board.setCurrentPlayer(Color.WHITE);
-<<<<<<< HEAD
         int enPassantCol = -1; // initialize to -1, which means no en passant capture is possible
         
-=======
-    
->>>>>>> parent of 93f695c (changing input with en passant)
         while (true) {
             board.printBoard();
     
@@ -53,12 +49,7 @@ public class Game
                 scanner.close();
                 return;
             }
-<<<<<<< HEAD
     
-=======
-
-            // This could be printed when it's checked later, there is no need to run it a second time here
->>>>>>> parent of 93f695c (changing input with en passant)
             if (board.isCheck(board.getCurrentPlayer())) {
                 System.out.println("Check");
             }
@@ -103,7 +94,6 @@ public class Game
                 fromRowCol = Utils.convertFileRankToRowCol(input.substring(0, 2));
                 toRowCol = Utils.convertFileRankToRowCol(input.substring(3, 5));
                 
-<<<<<<< HEAD
                 // Check for en passant move
                 if (input.contains("e.p.")) {
                     enPassantCol = Utils.convertFileRankToRowCol(input.substring(6))[1];
@@ -114,13 +104,7 @@ public class Game
                 Piece tempFromPiece = board.getPieceAt(fromRowCol[0], fromRowCol[1]);
                 Piece tempToPiece = board.getPieceAt(toRowCol[0], toRowCol[1]);
     
-                if (board.movePiece(fromRowCol[0], fromRowCol[1], toRowCol[0], toRowCol[1], enPassantCol)) {
-=======
-                Piece tempFromPiece = board.getPieceAt(fromRowCol[0], fromRowCol[1]);
-                Piece tempToPiece = board.getPieceAt(toRowCol[0], toRowCol[1]);
-
                 if (board.movePiece(fromRowCol[0], fromRowCol[1], toRowCol[0], toRowCol[1])) {
->>>>>>> parent of 93f695c (changing input with en passant)
                     if (board.isCheck(board.getCurrentPlayer())) {
                         // undo move
                         board.setPieceAt(tempFromPiece, fromRowCol[0], fromRowCol[1]);
@@ -138,8 +122,5 @@ public class Game
             board.setCurrentPlayer(board.getCurrentPlayer().opposite());
         }
     }
-<<<<<<< HEAD
     
-=======
->>>>>>> parent of 93f695c (changing input with en passant)
 }

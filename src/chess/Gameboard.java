@@ -468,10 +468,4 @@ public class Gameboard
         }
         return null;
     }
-<<<<<<< HEAD
-=======
-    
-    
-
->>>>>>> parent of 93f695c (changing input with en passant)
 }
