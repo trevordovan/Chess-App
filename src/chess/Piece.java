@@ -14,34 +14,22 @@ import chess.enums.Color;
  */
 public abstract class Piece
 {
-    /**
-     * The color of the piece.
-     */
+    /** The color of the piece. */
     private Color color;
 
-    /**
-     * The row on the game board where the piece is located.
-     */
+    /** The row on the game board where the piece is located. */
     private int row;
 
-    /**
-     * The column on the game board where the piece is located.
-     */
+    /** The column on the game board where the piece is located. */
     private int col;
     
-    /**
-     * The name of the piece, typically a two-character string like "wK" or "bQ".
-     */
+    /** The name of the piece, typically a two-character string like "wK" or "bQ". */
     private String name;
 
-    /**
-     * The boolean representing whether or not the piece has moved.
-     */
+    /** The boolean representing whether or not the piece has moved. */
     private Boolean hasMoved;
 
-    /**
-     * The color of the piece attacking, black or white.
-     */
+    /** The color of the piece attacking, black or white */
     protected Color attackingColor;
 
     /**
